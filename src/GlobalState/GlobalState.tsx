@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import type { Product } from '../API/products-list';
+import type { Product } from '../interfaces/interfaces';
 
 interface GlobalStateInterface {
     selectedProduct: Product | null,

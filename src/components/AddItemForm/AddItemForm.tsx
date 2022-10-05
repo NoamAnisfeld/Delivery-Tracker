@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react'
+
+import type { Product } from '../../interfaces/interfaces'
+
 import { useGlobalStateContext } from '../../GlobalState/GlobalState'
+import { fetchProductsList } from '../../API/products-list'
 
 import Grid from '@mui/material/Grid'
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
 
-import { fetchProductsList, Product } from '../../API/products-list'
+
+
 
 export default function AddItemForm() {
     const

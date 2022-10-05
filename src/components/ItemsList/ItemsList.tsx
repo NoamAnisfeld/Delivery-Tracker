@@ -1,5 +1,5 @@
 import { fetchProductsList } from "../../API/products-list"
-import type { Product } from "../../API/products-list"
+import type { Product } from "../../interfaces/interfaces"
 import { useEffect, useState } from "react"
 
 export default function ItemsList() {
