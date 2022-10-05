@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useGlobalStateContext } from '../../GlobalState/GlobalState'
 
 import Grid from '@mui/material/Grid'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -9,7 +10,9 @@ import { fetchProductsList, Product } from '../../API/products-list'
 export default function AddItemForm() {
     const
         [itemsList, setItemsList] = useState<Product[]>(),
-        [choosenItem, setChoosenItem] = useState<Product>();
+        { globalState: { selectedProduct }, updateGlobalState } = useGlobalStateContext(),
+        setSelectedProduct = (product: Product) =>
+            updateGlobalState && updateGlobalState({ selectedProduct: product });
 
     useEffect(() => {
         fetchProductsList().then(setItemsList);
@@ -23,11 +26,11 @@ export default function AddItemForm() {
                     item
                 })) || []}
                 renderInput={params => <TextField {...params} label="label" />}
-                onChange={(event, value) => setChoosenItem(value?.item)}
+                onChange={(event, value) => value && setSelectedProduct(value.item)}
             />
         </Grid>
         <Grid item xs={8}>
-            {choosenItem && <p>{JSON.stringify(choosenItem)}</p>}
+            {selectedProduct && <p>{JSON.stringify(selectedProduct)}</p>}
         </Grid>
     </Grid>
 }
