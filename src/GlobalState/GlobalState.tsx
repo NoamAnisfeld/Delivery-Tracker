@@ -8,8 +8,8 @@ interface GlobalStateInterface {
 }
 
 interface GlobalStateContextInterface {
-    state: GlobalStateInterface,
-    updateState?: React.Dispatch<Partial<GlobalStateInterface>>
+    globalState: GlobalStateInterface,
+    updateGlobalState?: React.Dispatch<Partial<GlobalStateInterface>>
 }
 
 const initialGlobalState: GlobalStateInterface = {
@@ -18,19 +18,19 @@ const initialGlobalState: GlobalStateInterface = {
         archivedProducts: [],
     },
     GlobalStateContext = createContext<GlobalStateContextInterface>({
-        state: initialGlobalState
+        globalState: initialGlobalState
     });
 
 export const useGlobalStateContext = () => useContext(GlobalStateContext);
 
 export function GlobalStateProvider({ children }: React.PropsWithChildren) {
-    const [state, updateState] = useReducer(
+    const [globalState, updateGlobalState] = useReducer(
         (prevState: GlobalStateInterface, updates: Partial<GlobalStateInterface>) => {
             return {...prevState, ...updates}
         },
     initialGlobalState);
 
-    return <GlobalStateContext.Provider value={{ state, updateState }}>
+    return <GlobalStateContext.Provider value={{ globalState, updateGlobalState }}>
         {children}
     </GlobalStateContext.Provider>
 }
