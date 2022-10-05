@@ -5,7 +5,7 @@ interface GlobalStateInterface {
 }
 
 const initialGlobalState: GlobalStateInterface = {},
-    GlobalStateContext = createContext(initialGlobalState);
+    GlobalStateContext = createContext({});
 
 export const useGlobalStateContext = () => useContext(GlobalStateContext);
 
