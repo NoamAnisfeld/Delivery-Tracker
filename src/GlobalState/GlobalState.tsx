@@ -1,11 +1,15 @@
 import { createContext, useContext, useReducer } from "react";
 import type { Product } from '../API/products-list';
 
-
 interface GlobalStateInterface {
     selectedProduct: Product | null,
     awaitedProducts: Product[],
     archivedProducts: Product[],
+}
+
+interface GlobalStateContextInterface {
+    state: GlobalStateInterface,
+    updateState?: React.Dispatch<Partial<GlobalStateInterface>>
 }
 
 const initialGlobalState: GlobalStateInterface = {
@@ -13,7 +17,9 @@ const initialGlobalState: GlobalStateInterface = {
         awaitedProducts: [],
         archivedProducts: [],
     },
-    GlobalStateContext = createContext({});
+    GlobalStateContext = createContext<GlobalStateContextInterface>({
+        state: initialGlobalState
+    });
 
 export const useGlobalStateContext = () => useContext(GlobalStateContext);
 
