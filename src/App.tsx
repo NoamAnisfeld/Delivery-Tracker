@@ -6,11 +6,7 @@ import ItemsList from './components/ItemsList/ItemsList';
 function App() {
   return (
     <div className="App">
-      <Grid container sx={{p: 10}}>
-        <Grid item xs={12} >
-          <AddItemForm />
-        </Grid>
-      </Grid>
+      <AddItemForm />
     </div>
   );
 }
