@@ -14,9 +14,10 @@ import TextField from '@mui/material/TextField'
 export default function AddItemForm() {
     const
         [itemsList, setItemsList] = useState<Product[]>(),
-        { globalState: { selectedProduct }, updateGlobalState } = useGlobalStateContext(),
-        setSelectedProduct = (product: Product) =>
-            updateGlobalState && updateGlobalState({ selectedProduct: product });
+        { 
+            selectedProduct,
+            setSelectedProduct,
+        } = useGlobalStateContext()!;
 
     useEffect(() => {
         fetchProductsList().then(setItemsList);
