@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box"
 import Grid from "@mui/material/Grid"
 import Card from "@mui/material/Card"
 import CardActions from '@mui/material/CardActions';
@@ -8,17 +7,21 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import type { Product } from "../../interfaces/interfaces"
 
+import CollapsibleText from "../CollapsibleText/CollapsibleText";
+
 export default function ItemCard({ item }: { item: Product }) {
-    return <Card sx={{ maxWidth: 500, bgcolor: "primary.main" }}>
-        <Typography p={2} variant="h3" component="div" align="center">
+    return <Card sx={{ maxWidth: 500, bgcolor: "secondary.dark" }}>
+        <Typography p={2} variant="h4" component="h3" align="center">
             {item.title}
         </Typography>
         <Grid container>
             <Grid item xs={true}>
                 <CardContent>
-                    <Typography variant="body2" color="text.secondary">
-                        {item.description}
-                    </Typography>
+                    <CollapsibleText>
+                        <Typography variant="body2" color="text.secondary">
+                            {item.description}
+                        </Typography>
+                    </CollapsibleText>
                 </CardContent>
             </Grid>
             <Grid item sm={3} m={2}>
@@ -33,7 +36,11 @@ export default function ItemCard({ item }: { item: Product }) {
         <Grid container sx={{ justifyContent: "space-between", alignItems: "center" }}>
             <Grid item xs={true}>
                 <CardActions>
-                    <Button variant="contained" color="secondary" size="small">Add to delivery waiting list</Button>
+                    <Button variant="contained" color="secondary" size="small"
+                        title="Add to delivery waiting list"
+                    >
+                        +
+                    </Button>
                 </CardActions>
             </Grid>
             <Grid item sm={4}>
