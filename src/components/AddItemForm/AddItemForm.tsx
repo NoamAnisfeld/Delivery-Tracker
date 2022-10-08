@@ -13,15 +13,11 @@ import TextField from '@mui/material/TextField'
 
 export default function AddItemForm() {
     const
-        [itemsList, setItemsList] = useState<Product[]>(),
-        { 
+        {
+            availableProducts, 
             selectedProduct,
             setSelectedProduct,
         } = useGlobalStateContext()!;
-
-    useEffect(() => {
-        fetchProductsList().then(setItemsList);
-    }, []);
 
     return <Grid container
         direction="column"
@@ -32,17 +28,20 @@ export default function AddItemForm() {
         <Grid item>
             <Autocomplete
                 sx={{ minWidth: "30ch" }}
-                options={itemsList?.map(item => ({
+                options={Object.values(availableProducts).map(item => ({
                     label: `${item.title} (${item.price}$)`,
                     item
                 })) || []}
                 isOptionEqualToValue={(option, value) => option.item.id === value.item.id}
                 renderInput={params => <TextField {...params} label="Choose an item" />}
-                onChange={(event, value) => value && setSelectedProduct(value.item)}
+                onChange={(event, value) => value && setSelectedProduct(value.item.id)}
             />
         </Grid>
         <Grid item>
-            {selectedProduct && <ItemCard item={selectedProduct} />}
+            {selectedProduct ?
+                <ItemCard itemId={selectedProduct} /> :
+                undefined
+            }
         </Grid>
     </Grid>
 }

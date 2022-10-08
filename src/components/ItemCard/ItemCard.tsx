@@ -10,10 +10,13 @@ import type { Product } from "../../interfaces/interfaces"
 import CollapsibleText from "../CollapsibleText/CollapsibleText";
 import { useGlobalStateContext } from "../../GlobalState/GlobalState";
 
-export default function ItemCard({ item }: { item: Product }) {
+export default function ItemCard({ itemId }: { itemId: number }) {
     const {
-        addItemToAwaitedProducts
+        availableProducts,
+        addItemToAwaitedProducts,
     } = useGlobalStateContext()!;
+
+    const item = availableProducts[itemId];
 
     return <Card sx={{ maxWidth: 500, bgcolor: "secondary.dark", m: 2 }}>
         <Typography p={2} variant="h4" component="h3" align="center">
@@ -43,7 +46,7 @@ export default function ItemCard({ item }: { item: Product }) {
                 <CardActions>
                     <Button variant="contained" color="secondary" size="small"
                         title="Add to delivery waiting list"
-                        onClick={() => addItemToAwaitedProducts(item)}
+                        onClick={() => addItemToAwaitedProducts(itemId)}
                     >
                         +
                     </Button>

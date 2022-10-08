@@ -1,29 +1,34 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import { fetchProductsList } from "../API/products-list";
 import type { Product, ProductList } from '../interfaces/interfaces';
 
 interface GlobalStateInterface {
-    selectedProduct: Product | null,
-    setSelectedProduct: (item: Product) => void,
+    selectedProduct: number,
+    setSelectedProduct: (itemId: number) => void,
 
-    awaitedProducts: ProductList,
-    addItemToAwaitedProducts: (newItem: Product) => void,
+    availableProducts: ProductList,
+
+    awaitedProducts: Set<number>,
+    addItemToAwaitedProducts: (itemId: number) => void,
     deleteItemFromAwaitedProducts: (itemId: number) => void,
 
-    archivedProducts: ProductList,
+    archivedProducts: Set<number>,
     archiveItem: (itemId: number) => void,
     dearchiveItem: (itemId: number) => void,
     deleteItemFromArchivedProducts: (itemId: number) => void,
 }
 
 const placeholderGlobalState: GlobalStateInterface = {
-    selectedProduct: null,
-    setSelectedProduct: (item: Product) => {},
+    selectedProduct: 0,
+    setSelectedProduct: (itemId: number) => {},
 
-    awaitedProducts: {},
-    addItemToAwaitedProducts: (newItem: Product) => {},
+    availableProducts: {},
+
+    awaitedProducts: new Set([]),
+    addItemToAwaitedProducts: (itemId: number) => {},
     deleteItemFromAwaitedProducts: (itemId: number) => {},
 
-    archivedProducts: {},
+    archivedProducts: new Set([]),
     archiveItem: (itemId: number) => {},
     dearchiveItem: (itemId: number) => {},
     deleteItemFromArchivedProducts: (itemId: number) => {},
@@ -35,63 +40,70 @@ export const useGlobalStateContext = () => useContext(GlobalStateContext);
 
 export function GlobalStateProvider({ children }: React.PropsWithChildren) {
     const
-        [selectedProduct, setSelectedProduct] = useState<Product | null>(null),
-        [awaitedProducts, setAwaitedProducts] = useState<ProductList>({}),
-        [archivedProducts, setArchivedProducts] = useState<ProductList>({});
-    
-    
+        [selectedProduct, setSelectedProduct] = useState(0),
+        [availableProducts, setAvailableProducts] = useState<ProductList>({}),
+        [awaitedProducts, setAwaitedProducts] = useState<Set<number>>(new Set([])),
+        [archivedProducts, setArchivedProducts] = useState<Set<number>>(new Set([]));
+ 
+    useEffect(() => {
+        fetchProductsList().then(data => {
+            const mappedData: ProductList = {};
+            data.forEach(item => mappedData[item.id] = item);
+            setAvailableProducts(mappedData);
+        });
+    }, []);
+       
     // ToDo: Allow adding multiple instances of the same item
 
-    function addItemToAwaitedProducts(newItem: Product) {
-        if (awaitedProducts[newItem.id])
+    function addItemToAwaitedProducts(itemId: number) {
+        if (!(availableProducts[itemId]) || awaitedProducts.has(itemId) )
             return;
         
-        setAwaitedProducts(prevList => ({...prevList, [newItem.id]: newItem}) );
+        setAwaitedProducts( new Set(awaitedProducts).add(itemId) );
     }
 
     function deleteItemFromAwaitedProducts(itemId: number) {
-        if (!(awaitedProducts[itemId]))
+        if (!(awaitedProducts.has(itemId)))
             return;
 
-        setAwaitedProducts(prevList => {
-            const newList = {...prevList};
-            delete newList[itemId];
-            return newList;
+        setAwaitedProducts(prevSet => {
+            const newSet = new Set(prevSet);
+            newSet.delete(itemId);
+            return newSet;
         });
     }
 
     function deleteItemFromArchivedProducts(itemId: number) {
-        if (!(archivedProducts[itemId]))
+        if (!(archivedProducts.has(itemId)))
             return;
 
-        setArchivedProducts(prevList => {
-            const newList = {...prevList};
-            delete newList[itemId];
-            return newList;
+        setArchivedProducts(prevSet => {
+            const newSet = new Set(prevSet);
+            newSet.delete(itemId);
+            return newSet;
         });
     }
 
     function archiveItem (itemId: number) {
-        if (!(awaitedProducts[itemId]))
+        if (!(awaitedProducts.has(itemId)))
             return;
-
-        if (!(archivedProducts[itemId]))
-            setArchivedProducts(prevList => ({...prevList, itemId: awaitedProducts[itemId]}));
         
         deleteItemFromAwaitedProducts(itemId);
+        
+        setArchivedProducts(prevSet => new Set(prevSet).add(itemId));
     }
 
     function dearchiveItem(itemId: number) {
-        if (!(archivedProducts[itemId]))
+        if (!(archivedProducts.has(itemId)))
             return;
-
-        if (!(awaitedProducts[itemId]))
-            setAwaitedProducts(prevList => ({...prevList, itemId: archivedProducts[itemId]}));
         
         deleteItemFromArchivedProducts(itemId);
+        
+        setAwaitedProducts(prevSet => new Set(prevSet).add(itemId));
     }
 
     return <GlobalStateContext.Provider value={{
+        availableProducts,
         selectedProduct,
         awaitedProducts,
         archivedProducts,
