@@ -36,6 +36,7 @@ export default function AddItemForm() {
                     label: `${item.title} (${item.price}$)`,
                     item
                 })) || []}
+                isOptionEqualToValue={(option, value) => option.item.id === value.item.id}
                 renderInput={params => <TextField {...params} label="Choose an item" />}
                 onChange={(event, value) => value && setSelectedProduct(value.item)}
             />
