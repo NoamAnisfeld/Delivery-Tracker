@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { fetchProductsList } from "../API/products-list";
 import type { Product, ProductList } from '../interfaces/interfaces';
+import { fetchSavedLists, saveLists } from "./SaveState";
 
 interface GlobalStateInterface {
     selectedProduct: number,
@@ -51,8 +52,18 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
             data.forEach(item => mappedData[item.id] = item);
             setAvailableProducts(mappedData);
         });
+
+        const {
+            awaitedProducts,
+            archivedProducts,
+         } = fetchSavedLists();
+         setAwaitedProducts(awaitedProducts);
+         setArchivedProducts(archivedProducts);
     }, []);
-       
+
+    if (awaitedProducts.size || archivedProducts.size)
+        saveLists({ awaitedProducts, archivedProducts });
+
     // ToDo: Allow adding multiple instances of the same item
 
     function addItemToAwaitedProducts(itemId: number) {

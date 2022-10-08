@@ -18,7 +18,7 @@ export default function ItemCard({ itemId }: { itemId: number }) {
 
     const item = availableProducts[itemId];
 
-    return <Card sx={{ maxWidth: 500, bgcolor: "secondary.dark", m: 2 }}>
+    return item ? <Card sx={{ maxWidth: 500, bgcolor: "secondary.dark", m: 2 }}>
         <Typography p={2} variant="h4" component="h3" align="center">
             {item.title}
         </Typography>
@@ -58,5 +58,5 @@ export default function ItemCard({ itemId }: { itemId: number }) {
                 </Typography>
             </Grid>
         </Grid>
-    </Card>
+    </Card> : null
 }
