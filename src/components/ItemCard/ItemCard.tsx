@@ -10,10 +10,18 @@ import type { Product } from "../../interfaces/interfaces"
 import CollapsibleText from "../CollapsibleText/CollapsibleText";
 import { useGlobalStateContext } from "../../GlobalState/GlobalState";
 
-export default function ItemCard({ itemId }: { itemId: number }) {
+export default function ItemCard({
+    itemId,
+    context,
+}: {
+    itemId: number
+    context: "SelectionForm" | "AwaitingList" | "ArchivedList"
+}) {
     const {
         availableProducts,
+        awaitedProducts,
         addItemToAwaitedProducts,
+        deleteItemFromAwaitedProducts,
     } = useGlobalStateContext()!;
 
     const item = availableProducts[itemId];
@@ -44,12 +52,20 @@ export default function ItemCard({ itemId }: { itemId: number }) {
         <Grid container sx={{ justifyContent: "space-between", alignItems: "center" }}>
             <Grid item xs={true}>
                 <CardActions>
+                    {context === "SelectionForm" &&
                     <Button variant="contained" color="secondary" size="small"
                         title="Add to delivery waiting list"
                         onClick={() => addItemToAwaitedProducts(itemId)}
                     >
                         +
-                    </Button>
+                    </Button>}
+                    {context === "AwaitingList" &&
+                    <Button variant="contained" color="secondary" size="small"
+                        title="Remove from delivery waiting list"
+                        onClick={() => deleteItemFromAwaitedProducts(itemId)}
+                    >
+                        -
+                    </Button>}
                 </CardActions>
             </Grid>
             <Grid item sm={4}>

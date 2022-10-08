@@ -39,7 +39,10 @@ export default function AddItemForm() {
         </Grid>
         <Grid item>
             {selectedProduct ?
-                <ItemCard itemId={selectedProduct} /> :
+                <ItemCard
+                    itemId={selectedProduct}
+                    context="SelectionForm"
+                /> :
                 undefined
             }
         </Grid>

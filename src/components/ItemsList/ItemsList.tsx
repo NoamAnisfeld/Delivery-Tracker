@@ -7,6 +7,10 @@ export default function ItemsList({
     itemIds: number[],
 }) {
     return <>{itemIds.map(itemId =>
-        <ItemCard key={itemId} {...{ itemId }} />
+        <ItemCard
+            key={itemId}
+            {...{ itemId }}
+            context="AwaitingList"
+        />
     )}</>
 }
