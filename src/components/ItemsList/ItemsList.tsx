@@ -1,12 +1,12 @@
-import type { Product } from "../../interfaces/interfaces";
+import type { Product, ProductList } from "../../interfaces/interfaces";
 import ItemCard from "../ItemCard/ItemCard";
 
 export default function ItemsList({
     items,
 }: {
-    items: Product[],
+    items: ProductList,
 }) {
-    return <>{items.map(item =>
-        <ItemCard key={item.id} {...{ item }} />
+    return <>{Object.entries(items).map(([id, item]) =>
+        <ItemCard key={id} {...{ item }} />
     )}</>
 }

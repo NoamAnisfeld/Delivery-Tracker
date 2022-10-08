@@ -1,15 +1,15 @@
 import { createContext, useContext, useState } from "react";
-import type { Product } from '../interfaces/interfaces';
+import type { Product, ProductList } from '../interfaces/interfaces';
 
 interface GlobalStateInterface {
     selectedProduct: Product | null,
     setSelectedProduct: (item: Product) => void,
 
-    awaitedProducts: Product[],
+    awaitedProducts: ProductList,
     addItemToAwaitedProducts: (newItem: Product) => void,
     deleteItemFromAwaitedProducts: (itemId: number) => void,
 
-    archivedProducts: Product[],
+    archivedProducts: ProductList,
     archiveItem: (itemId: number) => void,
     dearchiveItem: (itemId: number) => void,
     deleteItemFromArchivedProducts: (itemId: number) => void,
@@ -19,11 +19,11 @@ const placeholderGlobalState: GlobalStateInterface = {
     selectedProduct: null,
     setSelectedProduct: (item: Product) => {},
 
-    awaitedProducts: [],
+    awaitedProducts: {},
     addItemToAwaitedProducts: (newItem: Product) => {},
     deleteItemFromAwaitedProducts: (itemId: number) => {},
 
-    archivedProducts: [],
+    archivedProducts: {},
     archiveItem: (itemId: number) => {},
     dearchiveItem: (itemId: number) => {},
     deleteItemFromArchivedProducts: (itemId: number) => {},
@@ -36,57 +36,59 @@ export const useGlobalStateContext = () => useContext(GlobalStateContext);
 export function GlobalStateProvider({ children }: React.PropsWithChildren) {
     const
         [selectedProduct, setSelectedProduct] = useState<Product | null>(null),
-        [awaitedProducts, setAwaitedProducts] = useState<Product[]>([]),
-        [archivedProducts, setArchivedProducts] = useState<Product[]>([]);
+        [awaitedProducts, setAwaitedProducts] = useState<ProductList>({}),
+        [archivedProducts, setArchivedProducts] = useState<ProductList>({});
     
     
     // ToDo: Allow adding multiple instances of the same item
 
     function addItemToAwaitedProducts(newItem: Product) {
-        if (awaitedProducts.find(item => item.id === newItem.id))
+        if (awaitedProducts[newItem.id])
             return;
         
-        setAwaitedProducts(prev => [...prev, newItem]);
+        setAwaitedProducts(prevList => ({...prevList, [newItem.id]: newItem}) );
     }
 
     function deleteItemFromAwaitedProducts(itemId: number) {
-        const index = awaitedProducts.findIndex(item => item.id === itemId);
-        if (index === -1)
+        if (!(awaitedProducts[itemId]))
             return;
 
-        setAwaitedProducts(prev => [...prev].splice(index, 1));
+        setAwaitedProducts(prevList => {
+            const newList = {...prevList};
+            delete newList[itemId];
+            return newList;
+        });
     }
 
     function deleteItemFromArchivedProducts(itemId: number) {
-        const index = archivedProducts.findIndex(item => item.id === itemId);
-        if (index === -1)
+        if (!(archivedProducts[itemId]))
             return;
 
-        setArchivedProducts(prev => [...prev].splice(index, 1));
+        setArchivedProducts(prevList => {
+            const newList = {...prevList};
+            delete newList[itemId];
+            return newList;
+        });
     }
 
     function archiveItem (itemId: number) {
-        const awaitedIndex = awaitedProducts.findIndex(item => item.id === itemId);
-        if (awaitedIndex === -1)
+        if (!(awaitedProducts[itemId]))
             return;
 
-        const archivedIndex = archivedProducts.findIndex(item => item.id === itemId);
-        if (archivedIndex === -1)
-            setArchivedProducts(prev => [...prev, awaitedProducts[awaitedIndex]]);
+        if (!(archivedProducts[itemId]))
+            setArchivedProducts(prevList => ({...prevList, itemId: awaitedProducts[itemId]}));
         
-        setAwaitedProducts(prev => [...prev].splice(awaitedIndex, 1));
+        deleteItemFromAwaitedProducts(itemId);
     }
 
     function dearchiveItem(itemId: number) {
-        const archivedIndex = archivedProducts.findIndex(item => item.id === itemId);
-        if (archivedIndex === -1)
+        if (!(archivedProducts[itemId]))
             return;
 
-        const awaitedIndex = awaitedProducts.findIndex(item => item.id === itemId);
-        if (awaitedIndex === -1)
-            setAwaitedProducts(prev => [...prev, archivedProducts[archivedIndex]]);
-
-        setArchivedProducts(prev => [...prev].splice(archivedIndex, 1));
+        if (!(awaitedProducts[itemId]))
+            setAwaitedProducts(prevList => ({...prevList, itemId: archivedProducts[itemId]}));
+        
+        deleteItemFromArchivedProducts(itemId);
     }
 
     return <GlobalStateContext.Provider value={{
