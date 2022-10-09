@@ -37,7 +37,7 @@ export function fetchSavedLists(): {
         ),
 
         archivedProducts: safeJSONParse(
-            localStorage.getItem('awaitedProducts') || '[]',
+            localStorage.getItem('archivedProducts') || '[]',
             [],
             dateValueReviver
         ),
