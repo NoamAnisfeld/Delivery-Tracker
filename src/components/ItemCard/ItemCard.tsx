@@ -19,8 +19,8 @@ export default function ItemCard({
     context: "SelectionForm" | "AwaitingList" | "ArchivedList"
 }) {
     const {
-        addItemToAwaitedProducts,
         deleteItemFromAwaitedProducts,
+        archiveItem,
     } = useGlobalStateContext();
 
     return <Card sx={{ width: 300, height: 400, bgcolor: "secondary.dark", m: 2 }}>
@@ -49,26 +49,30 @@ export default function ItemCard({
                         {item.estimatedDeliveryDate?.toDateString?.() || "not specified"}
                     </Typography>
                 </Grid>
-                <Grid container justifyContent="space-between" alignItems="center" >
-                    <Grid item xs={true}>
-                        <CardActions>
-                            {context === "SelectionForm" &&
-                                <Button variant="contained" color="secondary" size="small"
-                                    title="Add to delivery waiting list"
-                                    onClick={() => addItemToAwaitedProducts(item)}
-                                >
-                                    +
-                                </Button>}
-                            {context === "AwaitingList" &&
-                                <Button variant="contained" color="secondary" size="small"
-                                    title="Remove from delivery waiting list"
-                                    onClick={() => deleteItemFromAwaitedProducts(item)}
-                                >
-                                    -
-                                </Button>}
-                        </CardActions>
+                <CardActions>
+                    <Grid container p={1}>
+                        <Button variant="contained" color="secondary" size="small"
+                            sx={{ m: 1 }}
+                            title="Edit details"
+                        >
+                            ...
+                        </Button>
+                        <Button variant="contained" color="secondary" size="small"
+                            sx={{ m: 1 }}
+                            title="Remove from delivery waiting list"
+                            onClick={() => deleteItemFromAwaitedProducts(item)}
+                        >
+                            -
+                        </Button>
+                        <Button variant="contained" color="secondary" size="small"
+                            sx={{ m: 1 }}
+                            title="Confirm delivery and archive"
+                            onClick={() => archiveItem(item)}
+                        >
+                            V
+                        </Button>
                     </Grid>
-                </Grid>
+                </CardActions>
             </Grid>
         </Grid>
 

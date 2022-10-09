@@ -11,7 +11,7 @@ export default function ItemsList({
     return <Grid container justifyContent="center">
         {items.map(item =>
             <Grid item key={item.uniqueKey}>
-                <ItemCard                    
+                <ItemCard
                     {...{ item }}
                     context="AwaitingList"
                 />
