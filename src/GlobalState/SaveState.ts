@@ -3,9 +3,13 @@
 
 import PurcashedProduct from "../data structures/PurcashedProduct";
 
-function safeJSONParse<T>(jsonData: string, defaultResult: T) {
+function safeJSONParse<T>(
+    jsonData: string,
+    defaultResult: T,
+    jsonReviver?: (key: string, value: any) => any
+) {
     try {
-        return JSON.parse(jsonData);
+        return JSON.parse(jsonData, jsonReviver);
     } catch (error) {
         if (error instanceof SyntaxError)
             return defaultResult;
@@ -14,15 +18,29 @@ function safeJSONParse<T>(jsonData: string, defaultResult: T) {
     }
 }
 
+function dateValueReviver(key: string, value: any) {
+    if (key === 'estimatedDeliveryDate')
+        return new Date(Date.parse(value));
+    
+    return value;
+}
+
 export function fetchSavedLists(): {
     awaitedProducts: PurcashedProduct[],
     archivedProducts: PurcashedProduct[],
 } {
     return {
-        awaitedProducts:
-            safeJSONParse(localStorage.getItem('awaitedProducts') || '[]', []),
-        archivedProducts:
-            safeJSONParse(localStorage.getItem('awaitedProducts') || '[]', []),
+        awaitedProducts: safeJSONParse(
+            localStorage.getItem('awaitedProducts') || '[]',
+            [],
+            dateValueReviver
+        ),
+
+        archivedProducts: safeJSONParse(
+            localStorage.getItem('awaitedProducts') || '[]',
+            [],
+            dateValueReviver
+        ),
     }
 }
 
