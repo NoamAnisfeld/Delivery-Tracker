@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { fetchProductsList } from "../API/products-list";
+import PurcashedProduct from "../data structures/PurcashedProduct";
 import type { Product, ProductList } from '../interfaces/interfaces';
 import { fetchSavedLists, saveLists } from "./SaveState";
 
@@ -9,14 +10,14 @@ interface GlobalStateInterface {
 
     availableProducts: ProductList,
 
-    awaitedProducts: Set<number>,
-    addItemToAwaitedProducts: (itemId: number) => void,
-    deleteItemFromAwaitedProducts: (itemId: number) => void,
+    awaitedProducts: PurcashedProduct[],
+    addItemToAwaitedProducts: (product: PurcashedProduct) => void,
+    deleteItemFromAwaitedProducts: (product: PurcashedProduct) => void,
 
-    archivedProducts: Set<number>,
-    archiveItem: (itemId: number) => void,
-    dearchiveItem: (itemId: number) => void,
-    deleteItemFromArchivedProducts: (itemId: number) => void,
+    archivedProducts: PurcashedProduct[],
+    archiveItem: (product: PurcashedProduct) => void,
+    dearchiveItem: (product: PurcashedProduct) => void,
+    deleteItemFromArchivedProducts: (product: PurcashedProduct) => void,
 }
 
 const placeholderGlobalState: GlobalStateInterface = {
@@ -25,14 +26,14 @@ const placeholderGlobalState: GlobalStateInterface = {
 
     availableProducts: {},
 
-    awaitedProducts: new Set([]),
-    addItemToAwaitedProducts: (itemId: number) => {},
-    deleteItemFromAwaitedProducts: (itemId: number) => {},
+    awaitedProducts: [],
+    addItemToAwaitedProducts: (product: PurcashedProduct) => {},
+    deleteItemFromAwaitedProducts: (product: PurcashedProduct) => {},
 
-    archivedProducts: new Set([]),
-    archiveItem: (itemId: number) => {},
-    dearchiveItem: (itemId: number) => {},
-    deleteItemFromArchivedProducts: (itemId: number) => {},
+    archivedProducts: [],
+    archiveItem: (product: PurcashedProduct) => {},
+    dearchiveItem: (product: PurcashedProduct) => {},
+    deleteItemFromArchivedProducts: (product: PurcashedProduct) => {},
 }
 
 const GlobalStateContext = createContext(placeholderGlobalState);
@@ -43,8 +44,8 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
     const
         [selectedProduct, setSelectedProduct] = useState(0),
         [availableProducts, setAvailableProducts] = useState<ProductList>({}),
-        [awaitedProducts, setAwaitedProducts] = useState<Set<number>>(new Set([])),
-        [archivedProducts, setArchivedProducts] = useState<Set<number>>(new Set([]));
+        [awaitedProducts, setAwaitedProducts] = useState<PurcashedProduct[]>([]),
+        [archivedProducts, setArchivedProducts] = useState<PurcashedProduct[]>([]);
  
     useEffect(() => {
         fetchProductsList().then(data => {
@@ -61,56 +62,35 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
          setArchivedProducts(archivedProducts);
     }, []);
 
-    if (awaitedProducts.size || archivedProducts.size)
+    if (awaitedProducts.length || archivedProducts.length)
         saveLists({ awaitedProducts, archivedProducts });
 
-    // ToDo: Allow adding multiple instances of the same item
-
-    function addItemToAwaitedProducts(itemId: number) {
-        if (!(availableProducts[itemId]) || awaitedProducts.has(itemId) )
-            return;
-        
-        setAwaitedProducts( new Set(awaitedProducts).add(itemId) );
+    function addItemToAwaitedProducts(item: PurcashedProduct) {        
+        setAwaitedProducts(prev => [...prev, item]);
     }
 
-    function deleteItemFromAwaitedProducts(itemId: number) {
-        if (!(awaitedProducts.has(itemId)))
-            return;
-
-        setAwaitedProducts(prevSet => {
-            const newSet = new Set(prevSet);
-            newSet.delete(itemId);
-            return newSet;
-        });
+    function deleteItemFromAwaitedProducts(item: PurcashedProduct) {
+        setAwaitedProducts(prev => [...prev].filter(x => x !== item));
     }
 
-    function deleteItemFromArchivedProducts(itemId: number) {
-        if (!(archivedProducts.has(itemId)))
-            return;
-
-        setArchivedProducts(prevSet => {
-            const newSet = new Set(prevSet);
-            newSet.delete(itemId);
-            return newSet;
-        });
+    function deleteItemFromArchivedProducts(item: PurcashedProduct) {
+        setArchivedProducts(prev => [...prev].filter(x => x !== item));
     }
 
-    function archiveItem (itemId: number) {
-        if (!(awaitedProducts.has(itemId)))
+    function archiveItem (item: PurcashedProduct) {
+        if (!(awaitedProducts.includes(item)))
             return;
         
-        deleteItemFromAwaitedProducts(itemId);
-        
-        setArchivedProducts(prevSet => new Set(prevSet).add(itemId));
+        deleteItemFromAwaitedProducts(item);
+        setArchivedProducts(prev => [...prev, item]);
     }
 
-    function dearchiveItem(itemId: number) {
-        if (!(archivedProducts.has(itemId)))
+    function dearchiveItem(item: PurcashedProduct) {
+        if (!(archivedProducts.includes(item)))
             return;
         
-        deleteItemFromArchivedProducts(itemId);
-        
-        setAwaitedProducts(prevSet => new Set(prevSet).add(itemId));
+        deleteItemFromArchivedProducts(item);
+        addItemToAwaitedProducts(item);
     }
 
     return <GlobalStateContext.Provider value={{

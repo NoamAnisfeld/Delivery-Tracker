@@ -1,3 +1,6 @@
+import PurcashedProduct from "../../data structures/PurcashedProduct";
+import { useGlobalStateContext } from "../../GlobalState/GlobalState";
+
 import Grid from "@mui/material/Grid"
 import Card from "@mui/material/Card"
 import CardActions from '@mui/material/CardActions';
@@ -5,16 +8,14 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import type { Product } from "../../interfaces/interfaces"
 
 import CollapsibleText from "../CollapsibleText/CollapsibleText";
-import { useGlobalStateContext } from "../../GlobalState/GlobalState";
 
 export default function ItemCard({
-    itemId,
+    item,
     context,
 }: {
-    itemId: number
+    item: PurcashedProduct,
     context: "SelectionForm" | "AwaitingList" | "ArchivedList"
 }) {
     const {
@@ -24,30 +25,32 @@ export default function ItemCard({
         deleteItemFromAwaitedProducts,
     } = useGlobalStateContext()!;
 
-    const item = availableProducts[itemId];
-
-    return item ? <Card sx={{ maxWidth: 500, bgcolor: "secondary.dark", m: 2 }}>
+    return <Card sx={{ maxWidth: 500, bgcolor: "secondary.dark", m: 2 }}>
         <Typography p={2} variant="h4" component="h3" align="center">
-            {item.title}
+            {item.name}
         </Typography>
         <Grid container>
-            <Grid item xs={true}>
+            {// @ts-ignore until I add it
+            item.description ? <Grid item xs={true}>
                 <CardContent>
                     <CollapsibleText>
                         <Typography variant="body2" color="text.secondary">
-                            {item.description}
+                            {// @ts-ignore until I add it
+                            item.description}
                         </Typography>
                     </CollapsibleText>
                 </CardContent>
-            </Grid>
-            <Grid item sm={3} m={2}>
+            </Grid> : undefined}
+            {// @ts-ignore until I add it
+            item.image ? <Grid item sm={3} m={2}>
                 <CardMedia
                     component="img"
                     sx={{ width: "100%", height: "auto" }}
+                    // @ts-ignore until I add it
                     image={item.image}
-                    alt={item.title}
+                    alt={item.name}
                 />
-            </Grid>
+            </Grid> : undefined}
         </Grid>
         <Grid container sx={{ justifyContent: "space-between", alignItems: "center" }}>
             <Grid item xs={true}>
@@ -55,14 +58,14 @@ export default function ItemCard({
                     {context === "SelectionForm" &&
                     <Button variant="contained" color="secondary" size="small"
                         title="Add to delivery waiting list"
-                        onClick={() => addItemToAwaitedProducts(itemId)}
+                        onClick={() => addItemToAwaitedProducts(item)}
                     >
                         +
                     </Button>}
                     {context === "AwaitingList" &&
                     <Button variant="contained" color="secondary" size="small"
                         title="Remove from delivery waiting list"
-                        onClick={() => deleteItemFromAwaitedProducts(itemId)}
+                        onClick={() => deleteItemFromAwaitedProducts(item)}
                     >
                         -
                     </Button>}
@@ -74,5 +77,5 @@ export default function ItemCard({
                 </Typography>
             </Grid>
         </Grid>
-    </Card> : null
+    </Card>
 }

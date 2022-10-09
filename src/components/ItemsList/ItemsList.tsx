@@ -1,15 +1,15 @@
-import type { Product, ProductList } from "../../interfaces/interfaces";
+import PurcashedProduct from "../../data structures/PurcashedProduct";
 import ItemCard from "../ItemCard/ItemCard";
 
 export default function ItemsList({
-    itemIds,
+    items,
 }: {
-    itemIds: number[],
+    items: PurcashedProduct[],
 }) {
-    return <>{itemIds.map(itemId =>
+    return <>{items.map(item =>
         <ItemCard
-            key={itemId}
-            {...{ itemId }}
+            key={item.uniqueKey}
+            {...{ item }}
             context="AwaitingList"
         />
     )}</>

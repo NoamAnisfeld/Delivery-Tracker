@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import type { Product } from '../../interfaces/interfaces'
-
 import { useGlobalStateContext } from '../../GlobalState/GlobalState'
-import { fetchProductsList } from '../../API/products-list'
 
 import ItemCard from '../ItemCard/ItemCard'
 
@@ -19,6 +16,7 @@ export default function AddItemForm() {
             availableProducts, 
             selectedProduct,
             setSelectedProduct,
+            addItemToAwaitedProducts,
         } = useGlobalStateContext()!;
 
     const [isAddItemDialogOpened, setIsAddItemDialogOpened] = useState(false);
@@ -48,17 +46,17 @@ export default function AddItemForm() {
             <AddItemDialog
                 open={isAddItemDialogOpened}
                 onClose={() => setIsAddItemDialogOpened(false)}
-                onSave={data => alert(JSON.stringify(data))}
+                onSave={newProduct => addItemToAwaitedProducts(newProduct)}
             />
         </Grid>
         <Grid item>
-            {selectedProduct ?
+            {/* {selectedProduct ?
                 <ItemCard
                     itemId={selectedProduct}
                     context="SelectionForm"
                 /> :
                 undefined
-            }
+            } */}
         </Grid>
     </Grid>
 }

@@ -18,7 +18,7 @@ function App() {
         </Grid>
         <Grid item lg={6}>
           <h2>Items Waiting for Delivery</h2>
-          <ItemsList itemIds={Array.from(awaitedProducts)} />
+          <ItemsList items={awaitedProducts} />
         </Grid>
       </Grid>
     </div>

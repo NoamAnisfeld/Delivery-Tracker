@@ -1,6 +1,7 @@
 // This should actually use server-side storage, but for the assignment
 // I'll use the browser's local storage
 
+import PurcashedProduct from "../data structures/PurcashedProduct";
 import { Product } from "../interfaces/interfaces";
 
 function safeJSONParse<T>(jsonData: string, defaultResult: T) {
@@ -15,34 +16,30 @@ function safeJSONParse<T>(jsonData: string, defaultResult: T) {
 }
 
 export function fetchSavedLists(): {
-    awaitedProducts: Set<number>,
-    archivedProducts: Set<number>,
+    awaitedProducts: PurcashedProduct[],
+    archivedProducts: PurcashedProduct[],
 } {
-    const
-        awaitedIds: number[] =
+    return {
+        awaitedProducts:
             safeJSONParse(localStorage.getItem('awaitedProducts') || '[]', []),
-        archivedIds: number[] =
-            safeJSONParse(localStorage.getItem('awaitedProducts') || '[]', []);
-        
-        return {
-            awaitedProducts: new Set(awaitedIds),
-            archivedProducts: new Set(archivedIds),
-        }        
+        archivedProducts:
+            safeJSONParse(localStorage.getItem('awaitedProducts') || '[]', []),
+    }
 }
 
 export function saveLists({
     awaitedProducts,
     archivedProducts,
 }: {
-    awaitedProducts: Set<number>,
-    archivedProducts: Set<number>,
+    awaitedProducts: PurcashedProduct[],
+    archivedProducts: PurcashedProduct[],
 }) {
     localStorage.setItem(
         'awaitedProducts',
-        JSON.stringify(Array.from(awaitedProducts))
+        JSON.stringify(awaitedProducts)
     );
     localStorage.setItem(
         'archivedProducts',
-        JSON.stringify(Array.from(archivedProducts))
+        JSON.stringify(archivedProducts)
     );
 }

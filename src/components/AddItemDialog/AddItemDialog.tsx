@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import PurcashedProduct from '../../data structures/PurcashedProduct'
+
 import Dialog from '@mui/material/Dialog'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
@@ -16,13 +18,13 @@ export default function AddItemDialog({
 }: {
     open: boolean,
     onClose?: () => void
-    onSave: (data: any) => void
+    onSave: (newProduct: PurcashedProduct) => void
 }) {
     const
         [name, setName] = useState(''),
         [store, setStore] = useState(''),
         [price, setPrice] = useState(0),
-        [estimatedDate, setEstimatedDate] = useState<Date>(new Date());
+        [estimatedDeliveryDate, setEstimatedDeliveryDate] = useState<Date>(new Date());
 
     return <Dialog
         {...{ open, onClose }}
@@ -55,8 +57,8 @@ export default function AddItemDialog({
             <Grid item>
                 <TextField type="date" variant="standard"
                     label="Estimated delivery date"
-                    value={formatDateToValueString(estimatedDate)}
-                    onChange={e => setEstimatedDate(new Date(e.target.value))}
+                    value={formatDateToValueString(estimatedDeliveryDate)}
+                    onChange={e => setEstimatedDeliveryDate(new Date(e.target.value))}
                 />
             </Grid>
             <Grid item>
@@ -64,12 +66,12 @@ export default function AddItemDialog({
                     onClick={() => {
                         onClose && onClose();
 
-                        onSave({
+                        onSave(new PurcashedProduct({
                             name,
                             store,
                             price,
-                            estimatedDate
-                        })
+                            estimatedDeliveryDate
+                        }));
                     }}
                 >
                     Save
