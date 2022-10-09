@@ -10,6 +10,8 @@ import ItemCard from '../ItemCard/ItemCard'
 import Grid from '@mui/material/Grid'
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import AddItemDialog from '../AddItemDialog/AddItemDialog'
 
 export default function AddItemForm() {
     const
@@ -18,6 +20,8 @@ export default function AddItemForm() {
             selectedProduct,
             setSelectedProduct,
         } = useGlobalStateContext()!;
+
+    const [isAddItemDialogOpened, setIsAddItemDialogOpened] = useState(false);
 
     return <Grid container
         direction="column"
@@ -35,6 +39,16 @@ export default function AddItemForm() {
                 isOptionEqualToValue={(option, value) => option.item.id === value.item.id}
                 renderInput={params => <TextField {...params} label="Choose an item" />}
                 onChange={(event, value) => value && setSelectedProduct(value.item.id)}
+            />
+            <Button variant="contained"
+                onClick={() => setIsAddItemDialogOpened(true)}
+            >
+                New item
+            </Button>
+            <AddItemDialog
+                open={isAddItemDialogOpened}
+                onClose={() => setIsAddItemDialogOpened(false)}
+                onSave={data => alert(JSON.stringify(data))}
             />
         </Grid>
         <Grid item>
