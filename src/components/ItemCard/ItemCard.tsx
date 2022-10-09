@@ -3,8 +3,8 @@ import { useGlobalStateContext } from "../../GlobalState/GlobalState";
 
 import Grid from "@mui/material/Grid"
 import Card from "@mui/material/Card"
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -27,6 +27,17 @@ export default function ItemCard({
         <Typography p={2} variant="h4" component="h3" align="center">
             {item.name}
         </Typography>
+        <Typography p={2}>
+            {item.store}
+        </Typography>
+        <Grid container justifyContent="center">
+            <Typography variant="h6">
+                Estimated delivery date
+            </Typography>
+            <Typography variant="h4" component="p">
+                {item.estimatedDeliveryDate?.toDateString?.() || "not specified"}
+            </Typography>
+        </Grid>
         <Grid container>
             {// @ts-ignore until I add it
             item.description ? <Grid item xs={true}>
