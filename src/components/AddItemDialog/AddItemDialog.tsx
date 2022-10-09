@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import PurcashedProduct from '../../data structures/PurcashedProduct'
+import { useGlobalStateContext } from '../../GlobalState/GlobalState'
 
 import Dialog from '@mui/material/Dialog'
 import TextField from '@mui/material/TextField'
@@ -25,6 +26,15 @@ export default function AddItemDialog({
         [store, setStore] = useState(''),
         [price, setPrice] = useState(0),
         [estimatedDeliveryDate, setEstimatedDeliveryDate] = useState<Date>(new Date());
+    
+    const {
+        selectedExampleProduct
+    } = useGlobalStateContext();
+
+    useEffect(() => {
+        setName(selectedExampleProduct?.title || '');
+        setPrice(selectedExampleProduct?.price || 0);
+    }, [selectedExampleProduct])
 
     return <Dialog
         {...{ open, onClose }}

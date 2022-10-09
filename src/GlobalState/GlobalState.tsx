@@ -1,14 +1,14 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { fetchProductsList } from "../API/products-list";
 import PurcashedProduct from "../data structures/PurcashedProduct";
-import type { Product, ProductList } from '../interfaces/interfaces';
+import type { ExampleProduct } from '../interfaces/interfaces';
 import { fetchSavedLists, saveLists } from "./SaveState";
 
 interface GlobalStateInterface {
-    selectedProduct: number,
-    setSelectedProduct: (itemId: number) => void,
+    selectedExampleProduct: ExampleProduct | null,
+    setSelectedExampleProduct: (product: ExampleProduct | null) => void,
 
-    exampleProducts: ProductList,
+    exampleProducts: ExampleProduct[],
 
     awaitedProducts: PurcashedProduct[],
     addItemToAwaitedProducts: (product: PurcashedProduct) => void,
@@ -21,10 +21,10 @@ interface GlobalStateInterface {
 }
 
 const placeholderGlobalState: GlobalStateInterface = {
-    selectedProduct: 0,
-    setSelectedProduct: (itemId: number) => {},
+    selectedExampleProduct: null,
+    setSelectedExampleProduct: (product: ExampleProduct | null) => {},
 
-    exampleProducts: {},
+    exampleProducts: [],
 
     awaitedProducts: [],
     addItemToAwaitedProducts: (product: PurcashedProduct) => {},
@@ -42,17 +42,13 @@ export const useGlobalStateContext = () => useContext(GlobalStateContext);
 
 export function GlobalStateProvider({ children }: React.PropsWithChildren) {
     const
-        [selectedProduct, setSelectedProduct] = useState(0),
-        [exampleProducts, setExampleProducts] = useState<ProductList>({}),
+        [exampleProducts, setExampleProducts] = useState<ExampleProduct[]>([]),
+        [selectedExampleProduct, setSelectedExampleProduct] = useState<ExampleProduct | null>(null),
         [awaitedProducts, setAwaitedProducts] = useState<PurcashedProduct[]>([]),
         [archivedProducts, setArchivedProducts] = useState<PurcashedProduct[]>([]);
  
     useEffect(() => {
-        fetchProductsList().then(data => {
-            const mappedData: ProductList = {};
-            data.forEach(item => mappedData[item.id] = item);
-            setExampleProducts(mappedData);
-        });
+        fetchProductsList().then(setExampleProducts);
 
         const {
             awaitedProducts,
@@ -95,11 +91,11 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
 
     return <GlobalStateContext.Provider value={{
         exampleProducts,
-        selectedProduct,
+        selectedExampleProduct,
         awaitedProducts,
         archivedProducts,
 
-        setSelectedProduct,
+        setSelectedExampleProduct,
         addItemToAwaitedProducts,
         deleteItemFromAwaitedProducts,
         deleteItemFromArchivedProducts,

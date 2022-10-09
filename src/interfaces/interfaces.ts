@@ -1,4 +1,4 @@
-export type Product = Readonly<{
+export interface ExampleProduct {
     id: number,
     title: string,
     price: number,
@@ -9,8 +9,4 @@ export type Product = Readonly<{
         rate: number,
         count: number
     }>
-}>
-
-export interface ProductList {
-    [id: number]: Product
 }

@@ -19,11 +19,9 @@ export default function ItemCard({
     context: "SelectionForm" | "AwaitingList" | "ArchivedList"
 }) {
     const {
-        exampleProducts,
-        awaitedProducts,
         addItemToAwaitedProducts,
         deleteItemFromAwaitedProducts,
-    } = useGlobalStateContext()!;
+    } = useGlobalStateContext();
 
     return <Card sx={{ maxWidth: 500, bgcolor: "secondary.dark", m: 2 }}>
         <Typography p={2} variant="h4" component="h3" align="center">

@@ -2,7 +2,6 @@
 // I'll use the browser's local storage
 
 import PurcashedProduct from "../data structures/PurcashedProduct";
-import { Product } from "../interfaces/interfaces";
 
 function safeJSONParse<T>(jsonData: string, defaultResult: T) {
     try {

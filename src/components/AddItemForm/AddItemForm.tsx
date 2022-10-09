@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { useGlobalStateContext } from '../../GlobalState/GlobalState'
-
-import ItemCard from '../ItemCard/ItemCard'
 
 import Grid from '@mui/material/Grid'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -13,9 +11,8 @@ import AddItemDialog from '../AddItemDialog/AddItemDialog'
 export default function AddItemForm() {
     const
         {
-            exampleProducts, 
-            selectedProduct,
-            setSelectedProduct,
+            exampleProducts,
+            setSelectedExampleProduct,
             addItemToAwaitedProducts,
         } = useGlobalStateContext()!;
 
@@ -28,6 +25,11 @@ export default function AddItemForm() {
         p={2}
     >
         <Grid item>
+            <Button variant="contained" sx={{ m: 2 }}
+                onClick={() => setIsAddItemDialogOpened(true)}
+            >
+                Add new item
+            </Button>
             <Autocomplete
                 sx={{ minWidth: "30ch" }}
                 options={Object.values(exampleProducts).map(item => ({
@@ -35,14 +37,14 @@ export default function AddItemForm() {
                     item
                 })) || []}
                 isOptionEqualToValue={(option, value) => option.item.id === value.item.id}
-                renderInput={params => <TextField {...params} label="Choose an item" />}
-                onChange={(event, value) => value && setSelectedProduct(value.item.id)}
+                renderInput={params => <TextField {...params} label="or choose from list" />}
+                onChange={(event, value) => {
+                    setSelectedExampleProduct(value?.item || null);
+
+                    if (value?.item)
+                        setIsAddItemDialogOpened(true);
+                }}
             />
-            <Button variant="contained"
-                onClick={() => setIsAddItemDialogOpened(true)}
-            >
-                New item
-            </Button>
             <AddItemDialog
                 open={isAddItemDialogOpened}
                 onClose={() => setIsAddItemDialogOpened(false)}
