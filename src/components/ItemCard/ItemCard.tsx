@@ -23,7 +23,7 @@ export default function ItemCard({
         deleteItemFromAwaitedProducts,
     } = useGlobalStateContext();
 
-    return <Card sx={{ maxWidth: 500, bgcolor: "secondary.dark", m: 2 }}>
+    return <Card sx={{ width: 300, height: 400, bgcolor: "secondary.dark", m: 2 }}>
         <Typography p={2} variant="h4" component="h3" align="center">
             {item.name}
         </Typography>

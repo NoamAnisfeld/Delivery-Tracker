@@ -1,5 +1,7 @@
 import './App.css';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+
 import AddItemForm from './components/AddItemForm/AddItemForm';
 import ItemsList from './components/ItemsList/ItemsList';
 import { useGlobalStateContext } from './GlobalState/GlobalState';
@@ -11,16 +13,15 @@ function App() {
 
   return (
     <div className="App">
-      <Grid container>
-        <Grid item lg={6}>
-          <h2>Available Items</h2>
-          <AddItemForm />
-        </Grid>
-        <Grid item lg={6}>
-          <h2>Items Waiting for Delivery</h2>
-          <ItemsList items={awaitedProducts} />
-        </Grid>
-      </Grid>
+      <Typography variant="h1" textAlign="center" fontSize="3rem">
+        Purcashes Delivery Tracker
+      </Typography>
+      <AddItemForm />
+      
+      <Typography variant="h2" fontSize="2rem">
+        Items Waiting for Delivery
+      </Typography>
+      <ItemsList items={awaitedProducts} />
     </div>
   );
 }
