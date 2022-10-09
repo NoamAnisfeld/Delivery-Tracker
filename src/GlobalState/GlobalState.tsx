@@ -8,7 +8,7 @@ interface GlobalStateInterface {
     selectedProduct: number,
     setSelectedProduct: (itemId: number) => void,
 
-    availableProducts: ProductList,
+    exampleProducts: ProductList,
 
     awaitedProducts: PurcashedProduct[],
     addItemToAwaitedProducts: (product: PurcashedProduct) => void,
@@ -24,7 +24,7 @@ const placeholderGlobalState: GlobalStateInterface = {
     selectedProduct: 0,
     setSelectedProduct: (itemId: number) => {},
 
-    availableProducts: {},
+    exampleProducts: {},
 
     awaitedProducts: [],
     addItemToAwaitedProducts: (product: PurcashedProduct) => {},
@@ -43,7 +43,7 @@ export const useGlobalStateContext = () => useContext(GlobalStateContext);
 export function GlobalStateProvider({ children }: React.PropsWithChildren) {
     const
         [selectedProduct, setSelectedProduct] = useState(0),
-        [availableProducts, setAvailableProducts] = useState<ProductList>({}),
+        [exampleProducts, setExampleProducts] = useState<ProductList>({}),
         [awaitedProducts, setAwaitedProducts] = useState<PurcashedProduct[]>([]),
         [archivedProducts, setArchivedProducts] = useState<PurcashedProduct[]>([]);
  
@@ -51,7 +51,7 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
         fetchProductsList().then(data => {
             const mappedData: ProductList = {};
             data.forEach(item => mappedData[item.id] = item);
-            setAvailableProducts(mappedData);
+            setExampleProducts(mappedData);
         });
 
         const {
@@ -94,7 +94,7 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
     }
 
     return <GlobalStateContext.Provider value={{
-        availableProducts,
+        exampleProducts,
         selectedProduct,
         awaitedProducts,
         archivedProducts,

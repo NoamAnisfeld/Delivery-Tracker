@@ -13,7 +13,7 @@ import AddItemDialog from '../AddItemDialog/AddItemDialog'
 export default function AddItemForm() {
     const
         {
-            availableProducts, 
+            exampleProducts, 
             selectedProduct,
             setSelectedProduct,
             addItemToAwaitedProducts,
@@ -30,7 +30,7 @@ export default function AddItemForm() {
         <Grid item>
             <Autocomplete
                 sx={{ minWidth: "30ch" }}
-                options={Object.values(availableProducts).map(item => ({
+                options={Object.values(exampleProducts).map(item => ({
                     label: `${item.title} (${item.price}$)`,
                     item
                 })) || []}

@@ -19,7 +19,7 @@ export default function ItemCard({
     context: "SelectionForm" | "AwaitingList" | "ArchivedList"
 }) {
     const {
-        availableProducts,
+        exampleProducts,
         awaitedProducts,
         addItemToAwaitedProducts,
         deleteItemFromAwaitedProducts,
