@@ -58,8 +58,7 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
          setArchivedProducts(archivedProducts);
     }, []);
 
-    if (awaitedProducts.length || archivedProducts.length)
-        saveLists({ awaitedProducts, archivedProducts });
+    saveLists({ awaitedProducts, archivedProducts });
 
     function addItemToAwaitedProducts(item: PurcashedProduct) {        
         setAwaitedProducts(prev => [...prev, item]);
