@@ -18,6 +18,7 @@ export default function ItemCard({
         deleteItemFromAwaitedProducts,
         deleteItemFromArchivedProducts,
         archiveItem,
+        dearchiveItem,
     } = useGlobalStateContext();
 
     return <Card sx={{ width: 300, height: 400, bgcolor: "secondary.dark", m: 2 }}>
@@ -65,20 +66,32 @@ export default function ItemCard({
                             onClick={() =>
                                 context === "AwaitingList" ?
                                     deleteItemFromAwaitedProducts(item) :
-                                context === "ArchivedList" ?
-                                    deleteItemFromArchivedProducts(item) :
-                                undefined
+                                    context === "ArchivedList" ?
+                                        deleteItemFromArchivedProducts(item) :
+                                        undefined
                             }
                         >
                             -
                         </Button>
-                        <Button variant="contained" color="secondary" size="small"
-                            sx={{ m: 1 }}
-                            title="Confirm delivery and archive"
-                            onClick={() => archiveItem(item)}
-                        >
-                            V
-                        </Button>
+                        {
+                            context === "AwaitingList" ?
+                                <Button variant="contained" color="secondary" size="small"
+                                    sx={{ m: 1 }}
+                                    title="Confirm delivery and archive"
+                                    onClick={() => archiveItem(item)}
+                                >
+                                    V
+                                </Button> :
+                                context === "ArchivedList" ?
+                                    <Button variant="contained" color="secondary" size="small"
+                                        sx={{ m: 1 }}
+                                        title="Return to awaiting list"
+                                        onClick={() => dearchiveItem(item)}
+                                    >
+                                        {"<-"}
+                                    </Button> :
+                                    undefined
+                        }
                     </Grid>
                 </CardActions>
             </Grid>
