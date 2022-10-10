@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 import { fetchProductsList } from "../API/products-list";
 import PurcashedProduct from "../data structures/PurcashedProduct";
 import type { ExampleProduct } from '../interfaces/interfaces';
@@ -58,7 +58,12 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
          setArchivedProducts(archivedProducts);
     }, []);
 
-    saveLists({ awaitedProducts, archivedProducts });
+    // prevents saving the initial empty lists
+    const doSaveListsRef = useRef(false);
+    if (awaitedProducts.length || archivedProducts.length)
+        doSaveListsRef.current = true;
+    if (doSaveListsRef.current)
+        saveLists({ awaitedProducts, archivedProducts });
 
     function addItemToAwaitedProducts(item: PurcashedProduct) {        
         setAwaitedProducts(prev => [...prev, item]);
