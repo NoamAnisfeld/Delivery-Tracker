@@ -2,24 +2,21 @@ import PurcashedProduct from "../../data structures/PurcashedProduct";
 import { useGlobalStateContext } from "../../GlobalState/GlobalState";
 
 import Grid from "@mui/material/Grid"
-import Card from "@mui/material/Card"
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
-import CollapsibleText from "../CollapsibleText/CollapsibleText";
+import Button from '@mui/material/Button';
+import Card from "@mui/material/Card"
+import CardActions from '@mui/material/CardActions';
 
 export default function ItemCard({
     item,
     context,
 }: {
     item: PurcashedProduct,
-    context: "SelectionForm" | "AwaitingList" | "ArchivedList"
+    context: "AwaitingList" | "ArchivedList"
 }) {
     const {
         deleteItemFromAwaitedProducts,
+        deleteItemFromArchivedProducts,
         archiveItem,
     } = useGlobalStateContext();
 
@@ -59,8 +56,14 @@ export default function ItemCard({
                         </Button>
                         <Button variant="contained" color="secondary" size="small"
                             sx={{ m: 1 }}
-                            title="Remove from delivery waiting list"
-                            onClick={() => deleteItemFromAwaitedProducts(item)}
+                            title="Delete"
+                            onClick={() =>
+                                context === "AwaitingList" ?
+                                    deleteItemFromAwaitedProducts(item) :
+                                context === "ArchivedList" ?
+                                    deleteItemFromArchivedProducts(item) :
+                                undefined
+                            }
                         >
                             -
                         </Button>
@@ -75,6 +78,5 @@ export default function ItemCard({
                 </CardActions>
             </Grid>
         </Grid>
-
     </Card>
 }

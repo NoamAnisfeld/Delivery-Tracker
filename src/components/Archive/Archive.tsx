@@ -12,6 +12,6 @@ export default function Archive() {
         <Typography variant="h2" fontSize="2rem">
             Archive of delivered items
         </Typography>
-        <ItemsList items={archivedProducts} />
+        <ItemsList items={archivedProducts} context="ArchivedList" />
     </>
 }

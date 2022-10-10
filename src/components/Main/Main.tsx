@@ -15,6 +15,6 @@ export default function Main() {
         <Typography variant="h2" fontSize="2rem">
             Items Waiting for Delivery
         </Typography>
-        <ItemsList items={awaitedProducts} />
+        <ItemsList items={awaitedProducts} context="AwaitingList" />
     </>
 }
