@@ -1,11 +1,9 @@
 import PurcashedProduct from "../../data structures/PurcashedProduct";
-import { useGlobalStateContext } from "../../GlobalState/GlobalState";
 
 import Grid from "@mui/material/Grid"
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import Card from "@mui/material/Card"
-import CardActions from '@mui/material/CardActions';
+import ItemCardActions from "../ItemCardActions/ItemCardActions";
 
 export default function ItemCard({
     item,
@@ -14,13 +12,6 @@ export default function ItemCard({
     item: PurcashedProduct,
     context: "AwaitingList" | "ArchivedList"
 }) {
-    const {
-        deleteItemFromAwaitedProducts,
-        deleteItemFromArchivedProducts,
-        archiveItem,
-        dearchiveItem,
-    } = useGlobalStateContext();
-
     return <Card sx={{ width: 300, height: 400, bgcolor: "secondary.dark", m: 2 }}>
         <Grid container
             direction="column"
@@ -51,49 +42,8 @@ export default function ItemCard({
                     <Typography variant="h4" component="p">
                         {item.estimatedDeliveryDate?.toDateString?.() || "not specified"}
                     </Typography>
+                    <ItemCardActions {...{ item, context }} />
                 </Grid>
-                <CardActions>
-                    <Grid container p={1}>
-                        <Button variant="contained" color="secondary" size="small"
-                            sx={{ m: 1 }}
-                            title="Edit details"
-                        >
-                            ...
-                        </Button>
-                        <Button variant="contained" color="secondary" size="small"
-                            sx={{ m: 1 }}
-                            title="Delete"
-                            onClick={() =>
-                                context === "AwaitingList" ?
-                                    deleteItemFromAwaitedProducts(item) :
-                                    context === "ArchivedList" ?
-                                        deleteItemFromArchivedProducts(item) :
-                                        undefined
-                            }
-                        >
-                            -
-                        </Button>
-                        {
-                            context === "AwaitingList" ?
-                                <Button variant="contained" color="secondary" size="small"
-                                    sx={{ m: 1 }}
-                                    title="Confirm delivery and archive"
-                                    onClick={() => archiveItem(item)}
-                                >
-                                    V
-                                </Button> :
-                                context === "ArchivedList" ?
-                                    <Button variant="contained" color="secondary" size="small"
-                                        sx={{ m: 1 }}
-                                        title="Return to awaiting list"
-                                        onClick={() => dearchiveItem(item)}
-                                    >
-                                        {"<-"}
-                                    </Button> :
-                                    undefined
-                        }
-                    </Grid>
-                </CardActions>
             </Grid>
         </Grid>
     </Card>
