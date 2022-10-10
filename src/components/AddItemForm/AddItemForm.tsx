@@ -19,17 +19,18 @@ export default function AddItemForm() {
     const [isAddItemDialogOpened, setIsAddItemDialogOpened] = useState(false);
 
     return <Grid container
-        direction="column"
-        alignContent="center"
-        spacing={5}
+        alignItems="center"
+        justifyContent="end"
         p={2}
     >
         <Grid item>
             <Button variant="contained" sx={{ m: 2 }}
                 onClick={() => setIsAddItemDialogOpened(true)}
             >
-                Add new item
+                + Add item
             </Button>
+        </Grid>
+        <Grid item>
             <Autocomplete
                 sx={{ minWidth: "30ch" }}
                 options={Object.values(exampleProducts).map(item => ({
@@ -50,15 +51,6 @@ export default function AddItemForm() {
                 onClose={() => setIsAddItemDialogOpened(false)}
                 onSave={newProduct => addItemToAwaitedProducts(newProduct)}
             />
-        </Grid>
-        <Grid item>
-            {/* {selectedProduct ?
-                <ItemCard
-                    itemId={selectedProduct}
-                    context="SelectionForm"
-                /> :
-                undefined
-            } */}
         </Grid>
     </Grid>
 }

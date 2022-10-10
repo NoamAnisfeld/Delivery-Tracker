@@ -17,9 +17,6 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Navigation />
-        <Typography variant="h1" textAlign="center" fontSize="3rem">
-          Purcashes Delivery Tracker
-        </Typography>
         <Routes>
           <Route index element={<Main />} />
           <Route path="/archive" element={<Archive />} />

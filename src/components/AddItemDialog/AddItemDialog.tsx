@@ -29,7 +29,7 @@ export default function AddItemDialog({
         [price, setPrice] = useState(0),
         [estimatedDeliveryDate, setEstimatedDeliveryDate] =
             useState<Date>(new Date(Date.now() + WEEK));
-    
+
     const {
         selectedExampleProduct
     } = useGlobalStateContext();
@@ -42,15 +42,15 @@ export default function AddItemDialog({
     return <Dialog
         {...{ open, onClose }}
     >
-        <Grid container direction="column" p={2} spacing={2}>
-            <Grid item>
+        <Grid container p={2} spacing={2}>
+            <Grid item flexBasis="50%">
                 <TextField required
-                    label="Name"
+                    label="Item name"
                     value={name}
                     onChange={e => setName(e.target.value)}
                 />
             </Grid>
-            <Grid item>
+            <Grid item flexBasis="50%">
                 <TextField
                     label="Store"
                     value={store}
@@ -58,38 +58,40 @@ export default function AddItemDialog({
                     onChange={e => setStore(e.target.value)}
                 />
             </Grid>
-            <Grid item>
+            <Grid item flexBasis="50%">
                 <TextField
                     label="Price"
                     type="number"
                     value={String(price)}
-                    helperText="in US Dollars $"
                     onChange={e => setPrice(Number(e.target.value))}
                 />
             </Grid>
-            <Grid item>
+            <Grid item flexBasis="50%">
                 <TextField type="date" variant="standard"
-                    label="Estimated delivery date"
+                    label="Recieve date estimation"
                     value={formatDateToValueString(estimatedDeliveryDate)}
                     onChange={e => setEstimatedDeliveryDate(new Date(e.target.value))}
                 />
             </Grid>
-            <Grid item>
-                <Button variant="contained"
-                    onClick={() => {
-                        onClose && onClose();
+        </Grid>
+        <Grid container p={2} justifyContent="end" gap={2}>
+            <Button onClick={onClose}>
+                Cancel
+            </Button>
+            <Button variant="contained"
+                onClick={() => {
+                    onClose && onClose();
 
-                        onSave(new PurcashedProduct({
-                            name,
-                            store,
-                            price,
-                            estimatedDeliveryDate
-                        }));
-                    }}
-                >
-                    Save
-                </Button>
-            </Grid>
+                    onSave(new PurcashedProduct({
+                        name,
+                        store,
+                        price,
+                        estimatedDeliveryDate
+                    }));
+                }}
+            >
+                Add
+            </Button>
         </Grid>
     </Dialog>
 }

@@ -11,10 +11,6 @@ export default function Main() {
 
     return <>
         <AddItemForm />
-
-        <Typography variant="h2" fontSize="2rem">
-            Items Waiting for Delivery
-        </Typography>
         <ItemsList items={awaitedProducts} context="AwaitingList" />
     </>
 }

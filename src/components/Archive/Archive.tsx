@@ -9,9 +9,6 @@ export default function Archive() {
     } = useGlobalStateContext();
 
     return <>
-        <Typography variant="h2" fontSize="2rem">
-            Archive of delivered items
-        </Typography>
         <ItemsList items={archivedProducts} context="ArchivedList" />
     </>
 }
