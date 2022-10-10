@@ -21,9 +21,14 @@ export default function ItemCard({
     } = useGlobalStateContext();
 
     return <Card sx={{ width: 300, height: 400, bgcolor: "secondary.dark", m: 2 }}>
-        <Grid container direction="column" height="100%" justifyContent="space-between">
-            <Grid item>
-                <Typography p={2} variant="h4" component="h3" align="center">
+        <Grid container
+            direction="column"
+            height="100%"
+            justifyContent="space-between"
+            wrap="nowrap"
+        >
+            <Grid item maxHeight="40%">
+                <Typography p={2} variant="h3" fontSize="2rem" align="center">
                     {item.name}
                 </Typography>
 
