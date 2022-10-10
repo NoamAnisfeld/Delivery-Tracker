@@ -1,12 +1,11 @@
 import './App.css';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-
-import AddItemForm from './components/AddItemForm/AddItemForm';
-import ItemsList from './components/ItemsList/ItemsList';
+import Navigation from './components/Navigation/Navigation';
+import Main from './components/Main/Main';
+import Archive from './components/Archive/Archive';
 import { useGlobalStateContext } from './GlobalState/GlobalState';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
 
 function App() {
   const {
@@ -17,43 +16,16 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Grid container textAlign="center">
-          <Grid item p={2} bgcolor="primary.main" flexBasis="50%">
-            <Link to="/">
-              <Typography color="primary.contrastText">
-                Products you are awaiting for
-              </Typography>
-            </Link>
-          </Grid>
-          <Grid item p={2} bgcolor="secondary.main" flexBasis="50%">
-            <Link to="/archive">
-              <Typography color="secondary.contrastText">
-                Archive of items you already got
-              </Typography>
-            </Link>
-          </Grid>
-        </Grid>
+        <Navigation />
         <Typography variant="h1" textAlign="center" fontSize="3rem">
           Purcashes Delivery Tracker
         </Typography>
         <Routes>
-          <Route index element={<>
-            <AddItemForm />
-
-            <Typography variant="h2" fontSize="2rem">
-              Items Waiting for Delivery
-            </Typography>
-            <ItemsList items={awaitedProducts} />
-          </>} />
-          <Route path="/archive" element={<>
-            <Typography variant="h2" fontSize="2rem">
-              Archive of delivered items
-            </Typography>
-            <ItemsList items={archivedProducts} />
-          </>} />
+          <Route index element={<Main />} />
+          <Route path="/archive" element={<Archive />} />
         </Routes>
       </BrowserRouter>
-    </div >
+    </div>
   );
 }
 
