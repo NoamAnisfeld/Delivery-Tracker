@@ -21,11 +21,14 @@ export default function AddItemDialog({
     onClose?: () => void
     onSave: (newProduct: PurcashedProduct) => void
 }) {
+    const WEEK = 7 * 24 * 60 * 60 * 1000;
+
     const
         [name, setName] = useState(''),
         [store, setStore] = useState(''),
         [price, setPrice] = useState(0),
-        [estimatedDeliveryDate, setEstimatedDeliveryDate] = useState<Date>(new Date());
+        [estimatedDeliveryDate, setEstimatedDeliveryDate] =
+            useState<Date>(new Date(Date.now() + WEEK));
     
     const {
         selectedExampleProduct
