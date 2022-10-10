@@ -5,6 +5,26 @@ import CardActions from '@mui/material/CardActions'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 
+function CardButton({
+    label,
+    title,
+    onClick,
+}:  & {
+    label: string,
+    title: string,
+    onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
+}) {
+    return <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        sx={{ m: 1 }}
+        {...{ title, onClick }}
+    >
+        {label}
+    </Button >
+}
+
 export default function ItemCardActions({
     item,
     context,
@@ -21,44 +41,33 @@ export default function ItemCardActions({
 
     return <CardActions>
         <Grid container p={1}>
-            <Button variant="contained" color="secondary" size="small"
-                sx={{ m: 1 }}
+            {/* <CardButton
+                label="..."
                 title="Edit details"
-            >
-                ...
-            </Button>
-            <Button variant="contained" color="secondary" size="small"
-                sx={{ m: 1 }}
-                title="Delete"
-                onClick={() =>
-                    context === "AwaitingList" ?
-                        deleteItemFromAwaitedProducts(item) :
-                        context === "ArchivedList" ?
-                            deleteItemFromArchivedProducts(item) :
-                            undefined
-                }
-            >
-                -
-            </Button>
-            {
-                context === "AwaitingList" ?
-                    <Button variant="contained" color="secondary" size="small"
-                        sx={{ m: 1 }}
-                        title="Confirm delivery and archive"
-                        onClick={() => archiveItem(item)}
-                    >
-                        V
-                    </Button> :
-                    context === "ArchivedList" ?
-                        <Button variant="contained" color="secondary" size="small"
-                            sx={{ m: 1 }}
-                            title="Return to awaiting list"
-                            onClick={() => dearchiveItem(item)}
-                        >
-                            {"<-"}
-                        </Button> :
-                        undefined
-            }
-        </Grid>
+            /> */}
+            {context === "AwaitingList" ? <>
+                <CardButton
+                    label="-"
+                    title="Delete"
+                    onClick={() => deleteItemFromAwaitedProducts(item)}
+                />
+                <CardButton
+                    label="V"
+                    title="Confirm delivery and archive"
+                    onClick={() => archiveItem(item)}
+                />
+            </> : <>
+                <CardButton
+                    label="-"
+                    title="Delete"
+                    onClick={() => deleteItemFromArchivedProducts(item)}
+                />
+                <CardButton
+                    label="V"
+                    title="Return to awaiting list"
+                    onClick={() => dearchiveItem(item)}
+                />
+            </>}
+       </Grid>
     </CardActions>
 }
