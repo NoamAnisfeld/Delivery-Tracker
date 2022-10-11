@@ -1,5 +1,5 @@
 export default class Currency {
-    name: string
+    name: string = ''
     sign: string = ''
     exchangeRates: {
         [currency: string]: number        
