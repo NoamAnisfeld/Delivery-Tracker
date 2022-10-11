@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, useRef } from "react";
 import { fetchProductsList } from "../API/products-list";
 import PurcashedProduct from "../data structures/PurcashedProduct";
 import type { ExampleProduct } from '../interfaces/interfaces';
+import Currency from '../data structures/Currency'
 import { fetchSavedLists, saveLists } from "./SaveState";
 
 interface GlobalStateInterface {
@@ -21,6 +22,8 @@ interface GlobalStateInterface {
 
     cardsView: boolean,
     setCardsView: (value: boolean) => void,
+
+    availableCurrencies: Currency[],
 }
 
 const placeholderGlobalState: GlobalStateInterface = {
@@ -40,6 +43,8 @@ const placeholderGlobalState: GlobalStateInterface = {
 
     cardsView: false,
     setCardsView: (value: boolean) => {},
+
+    availableCurrencies: [],
 }
 
 const GlobalStateContext = createContext(placeholderGlobalState);
@@ -52,7 +57,15 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
         [selectedExampleProduct, setSelectedExampleProduct] = useState<ExampleProduct | null>(null),
         [awaitedProducts, setAwaitedProducts] = useState<PurcashedProduct[]>([]),
         [archivedProducts, setArchivedProducts] = useState<PurcashedProduct[]>([]),
-        [cardsView, setCardsView] = useState(false);
+        [cardsView, setCardsView] = useState(false),
+        [availableCurrencies, setAvailableCurrencies] = useState<Currency[]>([
+            new Currency({ name: 'Dollar', sign: '$', exchangeRates: {
+                'Shekel': 3
+            }}),
+            new Currency({ name: 'Shekel', sign: '₪', exchangeRates: {
+                'Dollar': 3
+            }})
+        ]);
  
     useEffect(() => {
         fetchProductsList().then(setExampleProducts);
@@ -116,6 +129,8 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
 
         cardsView,
         setCardsView,
+
+        availableCurrencies,
     }}>
         {children}
     </GlobalStateContext.Provider>
