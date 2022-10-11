@@ -27,6 +27,7 @@ interface GlobalStateInterface {
         [currencyName: string]: Currency
     },
     selectedCurrency: string,
+    setSelectedCurrency: (currencyName: string) => void,
 }
 
 const placeholderGlobalState: GlobalStateInterface = {
@@ -51,6 +52,7 @@ const placeholderGlobalState: GlobalStateInterface = {
         'US Dollar': new Currency({ name: 'US Dollar', sign: '$', exchangeRates: {} })
     },
     selectedCurrency: 'US Dollar',
+    setSelectedCurrency: (currencyName: string) => {},
 }
 
 const GlobalStateContext = createContext(placeholderGlobalState);
@@ -141,6 +143,7 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
 
         availableCurrencies,
         selectedCurrency,
+        setSelectedCurrency,
     }}>
         {children}
     </GlobalStateContext.Provider>
