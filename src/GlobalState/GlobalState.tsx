@@ -23,7 +23,10 @@ interface GlobalStateInterface {
     cardsView: boolean,
     setCardsView: (value: boolean) => void,
 
-    availableCurrencies: Currency[],
+    availableCurrencies: {
+        [currencyName: string]: Currency
+    },
+    selectedCurrency: string,
 }
 
 const placeholderGlobalState: GlobalStateInterface = {
@@ -44,7 +47,10 @@ const placeholderGlobalState: GlobalStateInterface = {
     cardsView: false,
     setCardsView: (value: boolean) => {},
 
-    availableCurrencies: [],
+    availableCurrencies: {
+        'US Dollar': new Currency({ name: 'US Dollar', sign: '$', exchangeRates: {} })
+    },
+    selectedCurrency: 'US Dollar',
 }
 
 const GlobalStateContext = createContext(placeholderGlobalState);
@@ -58,14 +64,17 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
         [awaitedProducts, setAwaitedProducts] = useState<PurcashedProduct[]>([]),
         [archivedProducts, setArchivedProducts] = useState<PurcashedProduct[]>([]),
         [cardsView, setCardsView] = useState(false),
-        [availableCurrencies, setAvailableCurrencies] = useState<Currency[]>([
-            new Currency({ name: 'Dollar', sign: '$', exchangeRates: {
-                'Shekel': 3
+        [availableCurrencies, setAvailableCurrencies] = useState<{
+            [currencyName: string]: Currency
+        }>({
+            'US Dollar': new Currency({ name: 'US Dollar', sign: '$', exchangeRates: {
+                'Israeli Shekel': 3
             }}),
-            new Currency({ name: 'Shekel', sign: '₪', exchangeRates: {
-                'Dollar': 3
+            'Israeli Shekel': new Currency({ name: 'Israeli Shekel', sign: '₪', exchangeRates: {
+                'US Dollar': 1 / 3
             }})
-        ]);
+        }),
+        [selectedCurrency, setSelectedCurrency] = useState('US Dollar');
  
     useEffect(() => {
         fetchProductsList().then(setExampleProducts);
@@ -131,6 +140,7 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
         setCardsView,
 
         availableCurrencies,
+        selectedCurrency,
     }}>
         {children}
     </GlobalStateContext.Provider>
