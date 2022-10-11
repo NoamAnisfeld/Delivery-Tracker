@@ -11,7 +11,7 @@ function CardButton({
     onClick,
 }:  & {
     label: string,
-    title: string,
+    title?: string,
     onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
 }) {
     return <Button
@@ -47,24 +47,21 @@ export default function ItemCardActions({
             /> */}
             {context === "AwaitingList" ? <>
                 <CardButton
-                    label="-"
-                    title="Delete"
+                    label="Delete"
                     onClick={() => deleteItemFromAwaitedProducts(item)}
                 />
                 <CardButton
-                    label="V"
+                    label="Archive"
                     title="Confirm delivery and archive"
                     onClick={() => archiveItem(item)}
                 />
             </> : <>
                 <CardButton
-                    label="-"
-                    title="Delete"
+                    label="Delete"
                     onClick={() => deleteItemFromArchivedProducts(item)}
                 />
                 <CardButton
-                    label="V"
-                    title="Return to awaiting list"
+                    label="Dearchive"
                     onClick={() => dearchiveItem(item)}
                 />
             </>}

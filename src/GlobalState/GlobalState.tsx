@@ -18,6 +18,9 @@ interface GlobalStateInterface {
     archiveItem: (product: PurcashedProduct) => void,
     dearchiveItem: (product: PurcashedProduct) => void,
     deleteItemFromArchivedProducts: (product: PurcashedProduct) => void,
+
+    cardsView: boolean,
+    setCardsView: (value: boolean) => void,
 }
 
 const placeholderGlobalState: GlobalStateInterface = {
@@ -34,6 +37,9 @@ const placeholderGlobalState: GlobalStateInterface = {
     archiveItem: (product: PurcashedProduct) => {},
     dearchiveItem: (product: PurcashedProduct) => {},
     deleteItemFromArchivedProducts: (product: PurcashedProduct) => {},
+
+    cardsView: false,
+    setCardsView: (value: boolean) => {},
 }
 
 const GlobalStateContext = createContext(placeholderGlobalState);
@@ -45,7 +51,8 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
         [exampleProducts, setExampleProducts] = useState<ExampleProduct[]>([]),
         [selectedExampleProduct, setSelectedExampleProduct] = useState<ExampleProduct | null>(null),
         [awaitedProducts, setAwaitedProducts] = useState<PurcashedProduct[]>([]),
-        [archivedProducts, setArchivedProducts] = useState<PurcashedProduct[]>([]);
+        [archivedProducts, setArchivedProducts] = useState<PurcashedProduct[]>([]),
+        [cardsView, setCardsView] = useState(false);
  
     useEffect(() => {
         fetchProductsList().then(setExampleProducts);
@@ -106,6 +113,9 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
 
         archiveItem,
         dearchiveItem,
+
+        cardsView,
+        setCardsView,
     }}>
         {children}
     </GlobalStateContext.Provider>
