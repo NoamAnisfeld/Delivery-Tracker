@@ -32,7 +32,7 @@ export default function ItemsList({
             </TableRow>
         </TableHead>
         <TableBody>
-            {items.map(item => <TableRow>
+            {items.map(item => <TableRow key={item.uniqueKey}>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.store}</TableCell>
                 <TableCell>{item.price}</TableCell>
