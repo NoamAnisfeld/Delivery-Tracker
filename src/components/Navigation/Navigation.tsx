@@ -9,24 +9,46 @@ import { Link } from 'react-router-dom'
 export default function Navigation() {
     const {
         cardsView,
-        setCardsView
+        setCardsView,
+        availableCurrencies,
+        selectedCurrency,
+        setSelectedCurrency,
     } = useGlobalStateContext();
 
-    return <Grid container p={2} spacing={5} bgcolor="#ccc" alignItems="center">
-        <Grid item>
-            <Link to="/">Delivery</Link>
+    return <Grid container p={2} bgcolor="#ccc" justifyContent="space-between">
+        <Grid item container spacing={2} alignItems="center" width="auto">
+            <Grid item>
+                <Link to="/">Delivery</Link>
+            </Grid>
+            <Grid item>
+                <Link to="/archive">Archived items</Link>
+            </Grid>
         </Grid>
-        <Grid item>
-            <Link to="/archive">Archived items</Link>
-        </Grid>
-        <Grid item marginLeft="auto">
-            <Select
-                value={cardsView ? "cardsView" : "tableView"}
-                onChange={e => setCardsView(e.target.value === "cardsView")}
-            >
-                <MenuItem value="tableView">Table view</MenuItem>
-                <MenuItem value="cardsView">Cards view</MenuItem>
-            </Select>
+        <Grid item container spacing={2} alignItems="center" width="auto">
+            <Grid item>
+                Currency:
+            </Grid>
+            <Grid item>
+                <Select
+                    value={selectedCurrency}
+                    onChange={e => setSelectedCurrency(e.target.value)}
+                >
+                    {Object.entries(availableCurrencies).map(([currencyName, currency]) =>
+                        <MenuItem value={currencyName} key={currencyName}>
+                            {currencyName} {currency.sign}
+                        </MenuItem>
+                    )}
+                </Select>
+            </Grid>
+            <Grid item>
+                <Select
+                    value={cardsView ? "cardsView" : "tableView"}
+                    onChange={e => setCardsView(e.target.value === "cardsView")}
+                >
+                    <MenuItem value="tableView">Table view</MenuItem>
+                    <MenuItem value="cardsView">Cards view</MenuItem>
+                </Select>
+            </Grid>
         </Grid>
     </Grid>
 }
