@@ -4,7 +4,7 @@ import Main from './components/Main/Main';
 import Archive from './components/Archive/Archive';
 import { useGlobalStateContext } from './GlobalState/GlobalState';
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 
 function App() {
@@ -15,13 +15,13 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
+      <HashRouter>
         <Navigation />
         <Routes>
           <Route index element={<Main />} />
-          <Route path="/archive" element={<Archive />} />
+          <Route path="archive" element={<Archive />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
