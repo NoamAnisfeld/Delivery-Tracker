@@ -25,9 +25,23 @@ export default function ItemsList({
         cardsView,
     } = useGlobalStateContext();
 
+    const sortedItems = [...items].sort((a, b) =>
+        !a.estimatedDeliveryDate ?
+            !b.estimatedDeliveryDate ?
+                0 :
+                1 :
+        !b.estimatedDeliveryDate ?
+            -1 :
+        a.estimatedDeliveryDate < b.estimatedDeliveryDate ?
+            -1 :
+        a.estimatedDeliveryDate > b.estimatedDeliveryDate ?
+            1 :
+        0
+    );
+
     return cardsView ?
         <Grid container justifyContent="center">
-            {items.map(item => <ItemCard
+            {sortedItems.map(item => <ItemCard
                 key={item.uniqueKey}
                 {...{ item, context }}
             />)}
@@ -43,7 +57,7 @@ export default function ItemsList({
                 </TableRow>
             </TableHead>
             <TableBody>
-                {items.map(item => <TableRow key={item.uniqueKey}>
+                {sortedItems.map(item => <TableRow key={item.uniqueKey}>
                     <TableCell>{item.name}</TableCell>
                     <TableCell>{item.store}</TableCell>
                     <TableCell><Price priceInUSDollars={item.price} /></TableCell>
