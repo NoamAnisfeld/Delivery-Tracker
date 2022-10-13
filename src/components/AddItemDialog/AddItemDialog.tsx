@@ -58,7 +58,8 @@ export default function AddItemDialog({
                     onChange={e => setStore(e.target.value)}
                 />
             </Grid>
-            <Grid item flexBasis="50%">
+            <Grid item container flexBasis="50%" alignItems="center">
+                <span style={{ marginLeft: "-1ch" }}>$</span>
                 <TextField
                     label="Price"
                     type="number"

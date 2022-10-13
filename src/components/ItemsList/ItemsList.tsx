@@ -1,5 +1,6 @@
 import PurcashedProduct from "../../data structures/PurcashedProduct";
 import { useGlobalStateContext } from "../../GlobalState/GlobalState";
+import Price from "../Price/Price";
 
 import Grid from '@mui/material/Grid';
 import Table from '@mui/material/Table';
@@ -45,7 +46,7 @@ export default function ItemsList({
                 {items.map(item => <TableRow key={item.uniqueKey}>
                     <TableCell>{item.name}</TableCell>
                     <TableCell>{item.store}</TableCell>
-                    <TableCell>{item.price}</TableCell>
+                    <TableCell><Price priceInUSDollars={item.price} /></TableCell>
                     <TableCell>{item.estimatedDeliveryDate?.toLocaleDateString() || ''}</TableCell>
                     <TableCell>{context === "AwaitingList" ?
                         <Button variant="outlined"

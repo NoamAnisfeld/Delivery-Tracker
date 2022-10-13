@@ -1,4 +1,5 @@
 import PurcashedProduct from "../../data structures/PurcashedProduct";
+import Price from "../Price/Price";
 
 import Grid from "@mui/material/Grid"
 import Typography from '@mui/material/Typography';
@@ -31,7 +32,7 @@ export default function ItemCard({
             <Grid item>
                 <Grid container justifyContent="end" marginTop="auto">
                     <Typography m={2} fontSize="2rem" textAlign="center">
-                        {item.price}$
+                        <Price priceInUSDollars={item.price} />
                     </Typography>
                 </Grid>
 
