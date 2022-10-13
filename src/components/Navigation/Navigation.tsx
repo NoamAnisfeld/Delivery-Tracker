@@ -15,8 +15,8 @@ export default function Navigation() {
         setSelectedCurrency,
     } = useGlobalStateContext();
 
-    return <Grid container p={2} bgcolor="#ccc" justifyContent="space-between">
-        <Grid item container spacing={2} alignItems="center" width="auto">
+    return <Grid container p={2} bgcolor="#ccc" alignItems="center" justifyContent="space-between">
+        <Grid item container xs="auto" columnSpacing={2} alignItems="center">
             <Grid item>
                 <Link to="/">Delivery</Link>
             </Grid>
@@ -24,7 +24,7 @@ export default function Navigation() {
                 <Link to="/archive">Archived items</Link>
             </Grid>
         </Grid>
-        <Grid item container spacing={2} alignItems="center" width="auto">
+        <Grid item container xs="auto" columnSpacing={2} alignItems="center">
             <Grid item>
                 Currency:
             </Grid>
