@@ -1,9 +1,13 @@
 import { createContext, useContext, useState, useEffect, useRef } from "react";
 import { fetchProductsList } from "../external data/products-list";
-import PurcashedProduct from "../data structures/PurcashedProduct";
 import type { ExampleProduct } from '../interfaces/interfaces';
+import PurcashedProduct from "../data structures/PurcashedProduct";
+
 import Currency from '../data structures/Currency'
+import type { Currencies } from "../data structures/Currency";
+
 import { fetchSavedLists, saveLists } from "./SaveState";
+import { pollExchangeRates } from "../external data/exchange-rates";
 
 interface GlobalStateInterface {
     selectedExampleProduct: ExampleProduct | null,
@@ -23,11 +27,9 @@ interface GlobalStateInterface {
     cardsView: boolean,
     setCardsView: (value: boolean) => void,
 
-    availableCurrencies: {
-        [currencyName: string]: Currency
-    },
+    availableCurrencies: Currencies,
     selectedCurrency: string,
-    setSelectedCurrency: (currencyName: string) => void,
+    setSelectedCurrency: (currencyCode: string) => void,
 }
 
 const placeholderGlobalState: GlobalStateInterface = {
@@ -49,10 +51,19 @@ const placeholderGlobalState: GlobalStateInterface = {
     setCardsView: (value: boolean) => {},
 
     availableCurrencies: {
-        'US Dollar': new Currency({ name: 'US Dollar', sign: '$', exchangeRates: {} })
+        USD: new Currency({
+            name: 'US Dollar',
+            sign: '$',
+            exchangeRates: {}
+        }),
+        ILS: new Currency({
+            name: 'Israeli Shekel',
+            sign: '₪',
+            exchangeRates: {}
+        }),
     },
-    selectedCurrency: 'US Dollar',
-    setSelectedCurrency: (currencyName: string) => {},
+    selectedCurrency: 'USD',
+    setSelectedCurrency: (currencyCode: string) => {},
 }
 
 const GlobalStateContext = createContext(placeholderGlobalState);
@@ -66,17 +77,29 @@ export function GlobalStateProvider({ children }: React.PropsWithChildren) {
         [awaitedProducts, setAwaitedProducts] = useState<PurcashedProduct[]>([]),
         [archivedProducts, setArchivedProducts] = useState<PurcashedProduct[]>([]),
         [cardsView, setCardsView] = useState(false),
-        [availableCurrencies, setAvailableCurrencies] = useState<{
-            [currencyName: string]: Currency
-        }>({
-            'US Dollar': new Currency({ name: 'US Dollar', sign: '$', exchangeRates: {
-                'Israeli Shekel': 3
-            }}),
-            'Israeli Shekel': new Currency({ name: 'Israeli Shekel', sign: '₪', exchangeRates: {
-                'US Dollar': 1 / 3
-            }})
-        }),
-        [selectedCurrency, setSelectedCurrency] = useState('US Dollar');
+        [availableCurrencies, setAvailableCurrencies] = useState(placeholderGlobalState.availableCurrencies),
+        [selectedCurrency, setSelectedCurrency] = useState('USD');
+    
+    useEffect(() => {
+        const aborter = pollExchangeRates({
+            baseCurrency: 'USD',
+            targetCurrencies: ['ILS'],
+            onRatesAvailable: newRates => setAvailableCurrencies(prev =>
+                ({
+                    ...prev,
+                    USD: {
+                        ...prev.USD,
+                        exchangeRates: {
+                            ...prev.USD.exchangeRates,
+                            ...newRates
+                        }
+                    }
+                })
+            )
+        });
+
+        return aborter;
+    }, []);
  
     useEffect(() => {
         fetchProductsList().then(setExampleProducts);

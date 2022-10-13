@@ -15,6 +15,8 @@ export default function Navigation() {
         setSelectedCurrency,
     } = useGlobalStateContext();
 
+    const { exchangeRates }  = availableCurrencies.USD;
+
     return <Grid container p={2} bgcolor="#ccc" alignItems="center" justifyContent="space-between">
         <Grid item container xs="auto" columnSpacing={2} alignItems="center">
             <Grid item>
@@ -33,9 +35,13 @@ export default function Navigation() {
                     value={selectedCurrency}
                     onChange={e => setSelectedCurrency(e.target.value)}
                 >
-                    {Object.entries(availableCurrencies).map(([currencyName, currency]) =>
-                        <MenuItem value={currencyName} key={currencyName}>
-                            {currencyName} {currency.sign}
+                    {Object.entries(availableCurrencies)
+                    .filter(([currencyCode]) =>
+                        currencyCode === 'USD' ||
+                        availableCurrencies.USD.exchangeRates[currencyCode]
+                    ).map(([currencyCode, currency]) =>
+                        <MenuItem value={currencyCode} key={currencyCode}>
+                            {currency.name} {currency.sign}
                         </MenuItem>
                     )}
                 </Select>

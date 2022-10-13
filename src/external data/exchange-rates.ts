@@ -18,7 +18,7 @@ export async function fetchLatestExchangeRates({
             result = await fetch(url),
             json = await result.json();
 
-        if (json.success !== 'true')
+        if (!json.success)
             return {}
         
         return json.rates

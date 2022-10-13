@@ -1,8 +1,8 @@
 export default class Currency {
-    name: string = ''
+    name: string
     sign: string = ''
     exchangeRates: {
-        [currency: string]: number        
+        [currencyCode: string]: number        
     } = {}
 
     constructor({
@@ -16,6 +16,12 @@ export default class Currency {
             [currency: string]: number
         },
     }) {
-        Object.assign(this, { name, sign, exchangeRates });
+        this.name = name;
+        this.sign = sign;
+        this.exchangeRates = exchangeRates;
     }
+}
+
+export interface Currencies {
+    [currencyCode: string]: Currency
 }
