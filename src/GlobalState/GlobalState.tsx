@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useRef } from "react";
-import { fetchProductsList } from "../API/products-list";
+import { fetchProductsList } from "../external data/products-list";
 import PurcashedProduct from "../data structures/PurcashedProduct";
 import type { ExampleProduct } from '../interfaces/interfaces';
 import Currency from '../data structures/Currency'
