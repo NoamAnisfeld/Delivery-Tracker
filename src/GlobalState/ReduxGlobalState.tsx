@@ -1,5 +1,6 @@
-import { configureStore, createReducer, createSlice, createAction, PayloadAction } from "@reduxjs/toolkit";
+import { configureStore, createSlice, createAction, PayloadAction } from "@reduxjs/toolkit";
 import { original } from 'immer';
+import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 import { fetchProductsList } from "../external data/products-list";
 import type { ExampleProduct } from '../interfaces/interfaces';
@@ -21,6 +22,7 @@ interface GlobalStateInterface {
     availableCurrencies: Currencies,
     selectedCurrency: string,
 }
+export const useAppSelector: TypedUseSelectorHook<GlobalStateInterface> = useSelector;
 
 const placeholderGlobalState: GlobalStateInterface = {
     selectedExampleProduct: null,
@@ -46,33 +48,6 @@ const placeholderGlobalState: GlobalStateInterface = {
     },
     selectedCurrency: 'USD',
 }
-
-const
-    actionSetSelectedExampleProduct =
-        createAction<ExampleProduct | null>('selectedExampleProduct.set'),
-    actionAddItemToAwaitedProducts =
-        createAction<PurcashedProduct>('awaitedProducts.add'),
-    actionDeleteItemFromAwaitedProducts =
-        createAction<PurcashedProduct>('awaitedProducts.remove'),
-    actionArchiveItem =
-        createAction<PurcashedProduct>('awaitedProducts.archive'),
-    actionDearchiveItem = 
-        createAction<PurcashedProduct>('archivedProducts.dearchive'),
-    actionDeleteItemFromArchivedProducts =
-        createAction<PurcashedProduct>('archivedProducts.remove'),
-    actionSetCardsView =
-        createAction<boolean>('cardsView.set'),
-    actionSetSelectedCurrency =
-        createAction<string>('selectedCurrency.set'),
-
-    actionSetAwaitedProducts =
-        createAction<PurcashedProduct[]>('awaitedProducts.set'),
-    actionSetArchivedProducts =
-        createAction<PurcashedProduct[]>('archivedProducts.set'),
-    actionSetExchangeRates =
-        createAction<{ [currencyCode: string]: number }>('exchangeRates.set'),
-    actionSetExampleProducts =
-        createAction<ExampleProduct[]>('exampleProducts.set');
 
 const mainSlice = createSlice({
     name: 'main',
@@ -152,19 +127,19 @@ pollExchangeRates({
     baseCurrency: 'USD',
     targetCurrencies: ['ILS'],
     onRatesAvailable: newRates =>
-        store.dispatch({ payload: newRates, type: actionSetExchangeRates })
+        store.dispatch(mainSlice.actions.setExchangeRates(newRates))
 });
  
 fetchProductsList().then(list =>
-    store.dispatch({ payload: list, type: actionSetExampleProducts })
+    store.dispatch(mainSlice.actions.setExampleProducts(list))
 );
 
 const {
     awaitedProducts,
     archivedProducts,
 } = fetchSavedLists();
-store.dispatch({ payload: awaitedProducts, type: actionSetAwaitedProducts });
-store.dispatch({ payload: archivedProducts, type: actionSetArchivedProducts });
+store.dispatch(mainSlice.actions.setAwaitedProducts(awaitedProducts));
+store.dispatch(mainSlice.actions.setArchivedProducts(archivedProducts));
 
 if (awaitedProducts.length || archivedProducts.length)
     saveLists({ awaitedProducts, archivedProducts });
@@ -172,7 +147,7 @@ if (awaitedProducts.length || archivedProducts.length)
 
 export default store;
 export const
-    setSelectedExampleProduct = (product: ExampleProduct) =>
+    setSelectedExampleProduct = (product: ExampleProduct | null) =>
         store.dispatch(mainSlice.actions.setSelectedExampleProduct),
     addItemToAwaitedProducts = (item: PurcashedProduct) =>
         store.dispatch(mainSlice.actions.setSelectedExampleProduct),
