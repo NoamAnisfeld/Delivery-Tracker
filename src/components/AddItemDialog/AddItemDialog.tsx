@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 
 import PurcashedProduct from '../../data structures/PurcashedProduct'
-import { useGlobalStateContext } from '../../GlobalState/GlobalState'
+
+import { useAppSelector } from '../../GlobalState/ReduxGlobalState'
 
 import Dialog from '@mui/material/Dialog'
 import TextField from '@mui/material/TextField'
@@ -32,7 +33,7 @@ export default function AddItemDialog({
 
     const {
         selectedExampleProduct
-    } = useGlobalStateContext();
+    } = useAppSelector(state => state);
 
     useEffect(() => {
         setName(selectedExampleProduct?.title || '');

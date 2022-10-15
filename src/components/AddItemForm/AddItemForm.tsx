@@ -1,6 +1,10 @@
 import { useState } from 'react'
 
-import { useGlobalStateContext } from '../../GlobalState/GlobalState'
+import {
+    useAppSelector,
+    setSelectedExampleProduct,
+    addItemToAwaitedProducts,
+} from '../../GlobalState/ReduxGlobalState'
 
 import Grid from '@mui/material/Grid'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -9,12 +13,9 @@ import Button from '@mui/material/Button'
 import AddItemDialog from '../AddItemDialog/AddItemDialog'
 
 export default function AddItemForm() {
-    const
-        {
-            exampleProducts,
-            setSelectedExampleProduct,
-            addItemToAwaitedProducts,
-        } = useGlobalStateContext()!;
+    const {
+        exampleProducts,
+    } = useAppSelector(state => state);
 
     const [isAddItemDialogOpened, setIsAddItemDialogOpened] = useState(false);
 
