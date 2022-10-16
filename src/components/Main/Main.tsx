@@ -1,13 +1,9 @@
 import AddItemForm from "../AddItemForm/AddItemForm"
 import ItemsList from "../ItemsList/ItemsList"
-import { useGlobalStateContext } from "../../GlobalState/GlobalState"
-
-import Typography from "@mui/material/Typography"
+import { useAppSelector } from "../../GlobalState/interface";
 
 export default function Main() {
-    const {
-        awaitedProducts
-    } = useGlobalStateContext();
+    const awaitedProducts = useAppSelector(state => state.awaitedProducts);
 
     return <>
         <AddItemForm />

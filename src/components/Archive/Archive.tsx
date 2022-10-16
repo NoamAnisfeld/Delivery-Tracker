@@ -1,12 +1,9 @@
 import ItemsList from '../ItemsList/ItemsList'
-import { useGlobalStateContext } from '../../GlobalState/GlobalState'
 
-import Typography from '@mui/material/Typography'
+import { useAppSelector } from '../../GlobalState/interface';
 
 export default function Archive() {
-    const {
-        archivedProducts
-    } = useGlobalStateContext();
+    const archivedProducts = useAppSelector(state => state.archivedProducts);
 
     return <>
         <ItemsList items={archivedProducts} context="ArchivedList" />

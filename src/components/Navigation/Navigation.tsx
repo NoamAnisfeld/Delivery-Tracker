@@ -1,4 +1,8 @@
-import { useGlobalStateContext } from '../../GlobalState/GlobalState'
+import { useAppSelector } from '../../GlobalState/interface'
+import {
+    setCardsView,
+    setSelectedCurrency,
+} from '../../GlobalState/dispatchers'
 
 import Grid from '@mui/material/Grid'
 import Select from '@mui/material/Select'
@@ -7,15 +11,9 @@ import MenuItem from '@mui/material/MenuItem'
 import { Link } from 'react-router-dom'
 
 export default function Navigation() {
-    const {
-        cardsView,
-        setCardsView,
-        availableCurrencies,
-        selectedCurrency,
-        setSelectedCurrency,
-    } = useGlobalStateContext();
-
-    const { exchangeRates }  = availableCurrencies.USD;
+    const cardsView = useAppSelector(state => state.cardsView);
+    const availableCurrencies = useAppSelector(state => state.availableCurrencies);
+    const selectedCurrency = useAppSelector(state => state.selectedCurrency);
 
     return <Grid container p={2} bgcolor="#ccc" alignItems="center" justifyContent="space-between">
         <Grid item container xs="auto" columnSpacing={2} alignItems="center">

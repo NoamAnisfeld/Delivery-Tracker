@@ -1,14 +1,12 @@
-import { useGlobalStateContext } from "../../GlobalState/GlobalState"
+import { useAppSelector } from "../../GlobalState/interface";
 
 export default function Price({
     priceInUSDollars
 }: {
     priceInUSDollars: number,
 }) {
-    const {
-        availableCurrencies,
-        selectedCurrency,
-    } = useGlobalStateContext();
+    const availableCurrencies = useAppSelector(state => state.availableCurrencies);
+    const selectedCurrency = useAppSelector(state => state.selectedCurrency);
 
     const
         currency = availableCurrencies[selectedCurrency],

@@ -1,5 +1,10 @@
 import type PurcashedProduct from '../../data structures/PurcashedProduct'
-import { useGlobalStateContext } from '../../GlobalState/GlobalState'
+import {
+    deleteItemFromAwaitedProducts,
+    deleteItemFromArchivedProducts,
+    archiveItem,
+    dearchiveItem
+} from '../../GlobalState/dispatchers'
 
 import CardActions from '@mui/material/CardActions'
 import Grid from '@mui/material/Grid'
@@ -32,12 +37,6 @@ export default function ItemCardActions({
     item: PurcashedProduct,
     context: "AwaitingList" | "ArchivedList"
 }) {
-    const {
-        deleteItemFromAwaitedProducts,
-        deleteItemFromArchivedProducts,
-        archiveItem,
-        dearchiveItem
-    } = useGlobalStateContext();
 
     return <CardActions>
         <Grid container p={1}>

@@ -1,5 +1,11 @@
 import PurcashedProduct from "../../data structures/PurcashedProduct";
-import { useGlobalStateContext } from "../../GlobalState/GlobalState";
+import { useAppSelector } from "../../GlobalState/interface";
+import {
+    archiveItem,
+    dearchiveItem,
+} from "../../GlobalState/dispatchers";
+
+
 import Price from "../Price/Price";
 import ColoredDate from "../ColoredDate/ColoredDate";
 
@@ -20,11 +26,7 @@ export default function ItemsList({
     items: PurcashedProduct[],
     context: "AwaitingList" | "ArchivedList"
 }) {
-    const {
-        archiveItem,
-        dearchiveItem,
-        cardsView,
-    } = useGlobalStateContext();
+    const cardsView = useAppSelector(state => state.cardsView);
 
     const sortedItems = [...items].sort((a, b) =>
         !a.estimatedDeliveryDate ?
