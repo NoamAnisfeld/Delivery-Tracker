@@ -1,28 +1,14 @@
-import { configureStore, createSlice, createAction, PayloadAction } from "@reduxjs/toolkit";
+import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { original } from 'immer';
-import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 import { fetchProductsList } from "../external data/products-list";
 import type { ExampleProduct } from '../interfaces/interfaces';
 import PurcashedProduct from "../data structures/PurcashedProduct";
 import Currency from '../data structures/Currency'
-import type { Currencies } from "../data structures/Currency";
 import { fetchSavedLists, saveLists } from "./SaveState";
 import { pollExchangeRates } from "../external data/exchange-rates";
 
-interface GlobalStateInterface {
-    selectedExampleProduct: ExampleProduct | null,
-    exampleProducts: ExampleProduct[],
-
-    awaitedProducts: PurcashedProduct[],
-    archivedProducts: PurcashedProduct[],
-
-    cardsView: boolean,
-
-    availableCurrencies: Currencies,
-    selectedCurrency: string,
-}
-export const useAppSelector: TypedUseSelectorHook<GlobalStateInterface> = useSelector;
+import { GlobalStateInterface } from "./interface";
 
 const placeholderGlobalState: GlobalStateInterface = {
     selectedExampleProduct: null,

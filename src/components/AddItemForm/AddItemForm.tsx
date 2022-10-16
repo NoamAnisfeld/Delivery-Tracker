@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { useAppSelector } from '../../GlobalState/ReduxGlobalState'
+import { useAppSelector } from '../../GlobalState/interface'
 
 import {
     setSelectedExampleProduct,

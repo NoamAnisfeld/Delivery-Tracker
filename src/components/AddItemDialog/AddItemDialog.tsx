@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import PurcashedProduct from '../../data structures/PurcashedProduct'
 
-import { useAppSelector } from '../../GlobalState/ReduxGlobalState'
+import { useAppSelector } from '../../GlobalState/interface'
 
 import Dialog from '@mui/material/Dialog'
 import TextField from '@mui/material/TextField'
