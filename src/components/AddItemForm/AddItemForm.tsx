@@ -13,9 +13,7 @@ import Button from '@mui/material/Button'
 import AddItemDialog from '../AddItemDialog/AddItemDialog'
 
 export default function AddItemForm() {
-    const {
-        exampleProducts,
-    } = useAppSelector(state => state);
+    const exampleProducts = useAppSelector(state => state.exampleProducts);
 
     const [isAddItemDialogOpened, setIsAddItemDialogOpened] = useState(false);
 

@@ -31,9 +31,7 @@ export default function AddItemDialog({
         [estimatedDeliveryDate, setEstimatedDeliveryDate] =
             useState<Date>(new Date(Date.now() + WEEK));
 
-    const {
-        selectedExampleProduct
-    } = useAppSelector(state => state);
+    const selectedExampleProduct = useAppSelector(state => state.selectedExampleProduct);
 
     useEffect(() => {
         setName(selectedExampleProduct?.title || '');
