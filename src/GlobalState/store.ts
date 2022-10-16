@@ -57,7 +57,7 @@ export const mainSlice = createSlice({
     
         archiveItem(state, { payload }: PayloadAction<PurcashedProduct>) {
             state.awaitedProducts = original(state.awaitedProducts)!.filter(
-                item => item === payload);
+                item => item !== payload);
             state.archivedProducts.push(payload);
             
             saveLists(state);
@@ -65,7 +65,7 @@ export const mainSlice = createSlice({
         
         dearchiveItem(state, { payload }: PayloadAction<PurcashedProduct>) {            
             state.archivedProducts = original(state.archivedProducts)!.filter(
-                item => item === payload);
+                item => item !== payload);
             state.awaitedProducts.push(payload);
                 
             saveLists(state);
