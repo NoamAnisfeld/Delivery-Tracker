@@ -1,10 +1,11 @@
 import { useState } from 'react'
 
+import { useAppSelector } from '../../GlobalState/ReduxGlobalState'
+
 import {
-    useAppSelector,
     setSelectedExampleProduct,
     addItemToAwaitedProducts,
-} from '../../GlobalState/ReduxGlobalState'
+} from '../../GlobalState/dispatchers'
 
 import Grid from '@mui/material/Grid'
 import Autocomplete from '@mui/material/Autocomplete'
