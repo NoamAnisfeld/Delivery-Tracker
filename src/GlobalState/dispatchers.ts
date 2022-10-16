@@ -1,6 +1,6 @@
-import store, { mainSlice } from "./ReduxGlobalState";
-import { ExampleProduct } from "../interfaces/interfaces";
-import PurcashedProduct from "../data structures/PurcashedProduct";
+import store, { mainSlice } from "./store";
+import type { ExampleProduct } from "../interfaces/interfaces";
+import type PurcashedProduct from "../data structures/PurcashedProduct";
 
 export const
     setSelectedExampleProduct = (product: ExampleProduct | null) =>

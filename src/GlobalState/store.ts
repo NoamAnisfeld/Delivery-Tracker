@@ -1,14 +1,15 @@
-import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { original } from 'immer';
+import type { GlobalStateInterface } from "./interface";
+import type { ExampleProduct } from "../interfaces/interfaces";
+import type PurcashedProduct from "../data structures/PurcashedProduct";
+import Currency from "../data structures/Currency";
+import { saveLists } from "./SaveState";
 
-import { fetchProductsList } from "../external data/products-list";
-import type { ExampleProduct } from '../interfaces/interfaces';
-import PurcashedProduct from "../data structures/PurcashedProduct";
-import Currency from '../data structures/Currency'
-import { fetchSavedLists, saveLists } from "./SaveState";
-import { pollExchangeRates } from "../external data/exchange-rates";
-
-import { GlobalStateInterface } from "./interface";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import {
+    createSlice,
+    configureStore,
+    original,
+} from "@reduxjs/toolkit";
 
 const placeholderGlobalState: GlobalStateInterface = {
     selectedExampleProduct: null,
@@ -108,44 +109,4 @@ export const mainSlice = createSlice({
 const store = configureStore({
     reducer: mainSlice.reducer
 });
-
-pollExchangeRates({
-    baseCurrency: 'USD',
-    targetCurrencies: ['ILS'],
-    onRatesAvailable: newRates =>
-        store.dispatch(mainSlice.actions.setExchangeRates(newRates))
-});
- 
-fetchProductsList().then(list =>
-    store.dispatch(mainSlice.actions.setExampleProducts(list))
-);
-
-const {
-    awaitedProducts,
-    archivedProducts,
-} = fetchSavedLists();
-store.dispatch(mainSlice.actions.setAwaitedProducts(awaitedProducts));
-store.dispatch(mainSlice.actions.setArchivedProducts(archivedProducts));
-
-if (awaitedProducts.length || archivedProducts.length)
-    saveLists({ awaitedProducts, archivedProducts });
-
-
 export default store;
-// export const
-//     setSelectedExampleProduct = (product: ExampleProduct | null) =>
-//         store.dispatch(mainSlice.actions.setSelectedExampleProduct(product)),
-//     addItemToAwaitedProducts = (item: PurcashedProduct) =>
-//         store.dispatch(mainSlice.actions.addItemToAwaitedProducts(item)),
-//     deleteItemFromAwaitedProducts = (item: PurcashedProduct) =>
-//         store.dispatch(mainSlice.actions.deleteItemFromAwaitedProducts(item)),
-//     archiveItem = (item: PurcashedProduct) =>
-//         store.dispatch(mainSlice.actions.archiveItem(item)),
-//     dearchiveItem = (item: PurcashedProduct) =>
-//         store.dispatch(mainSlice.actions.dearchiveItem(item)),
-//     deleteItemFromArchivedProducts = (item: PurcashedProduct) =>
-//         store.dispatch(mainSlice.actions.deleteItemFromArchivedProducts(item)),
-//     setCardsView = (useCardsView: boolean) =>
-//         store.dispatch(mainSlice.actions.setCardsView(useCardsView)),
-//     setSelectedCurrency = (currencyCode: string) =>
-//         store.dispatch(mainSlice.actions.setSelectedCurrency(currencyCode));
