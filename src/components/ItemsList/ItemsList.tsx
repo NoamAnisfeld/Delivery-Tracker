@@ -3,11 +3,14 @@ import { useAppSelector } from "../../GlobalState/interface";
 import {
     archiveItem,
     dearchiveItem,
+    deleteItemFromAwaitedProducts,
+    deleteItemFromArchivedProducts,
 } from "../../GlobalState/dispatchers";
 
 
 import Price from "../Price/Price";
 import ColoredDate from "../ColoredDate/ColoredDate";
+import ItemCard from "../ItemCard/ItemCard";
 
 import Grid from '@mui/material/Grid';
 import Table from '@mui/material/Table';
@@ -17,7 +20,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
-import ItemCard from "../ItemCard/ItemCard";
+import DeleteIcon from '@mui/icons-material/Delete'
+import CheckIcon from '@mui/icons-material/Check'
+import BackIcon from '@mui/icons-material/ArrowBack'
 
 export default function ItemsList({
     items,
@@ -33,13 +38,13 @@ export default function ItemsList({
             !b.estimatedDeliveryDate ?
                 0 :
                 1 :
-        !b.estimatedDeliveryDate ?
-            -1 :
-        a.estimatedDeliveryDate < b.estimatedDeliveryDate ?
-            -1 :
-        a.estimatedDeliveryDate > b.estimatedDeliveryDate ?
-            1 :
-        0
+            !b.estimatedDeliveryDate ?
+                -1 :
+                a.estimatedDeliveryDate < b.estimatedDeliveryDate ?
+                    -1 :
+                    a.estimatedDeliveryDate > b.estimatedDeliveryDate ?
+                        1 :
+                        0
     );
 
     return cardsView ?
@@ -56,7 +61,7 @@ export default function ItemsList({
                     <TableCell>Store</TableCell>
                     <TableCell>Price</TableCell>
                     <TableCell>Delivery estimate</TableCell>
-                    <TableCell>Action</TableCell>
+                    <TableCell>Actions</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -69,18 +74,31 @@ export default function ItemsList({
                             <ColoredDate date={item.estimatedDeliveryDate} /> :
                             item.estimatedDeliveryDate?.toLocaleDateString()}
                     </TableCell>
-                    <TableCell>{context === "AwaitingList" ?
-                        <Button variant="outlined"
+                    <TableCell>{context === "AwaitingList" ? <>
+                        <Button variant="outlined" sx={{ mx: 1 }}
                             onClick={() => archiveItem(item)}
                         >
-                            Archive
-                        </Button> :
-                        <Button variant="outlined"
+                            <CheckIcon /> Archive
+                        </Button>
+
+                        <Button variant="outlined" sx={{ mx: 1 }}
+                            onClick={() => deleteItemFromAwaitedProducts(item)}
+                        >
+                            <DeleteIcon /> Delete
+                        </Button>
+                    </> : <>
+                        <Button variant="outlined" sx={{ mx: 1 }}
                             onClick={() => dearchiveItem(item)}
                         >
-                            Dearchive
+                            <BackIcon /> Dearchive
                         </Button>
-                    }</TableCell>
+
+                        <Button variant="outlined" sx={{ mx: 1 }}
+                            onClick={() => deleteItemFromArchivedProducts(item)}
+                        >
+                            <DeleteIcon />Delete
+                        </Button>
+                    </>}</TableCell>
                 </TableRow>)}
             </TableBody>
         </Table></TableContainer>

@@ -9,13 +9,16 @@ import {
 import CardActions from '@mui/material/CardActions'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
+import DeleteIcon from '@mui/icons-material/Delete'
+import CheckIcon from '@mui/icons-material/Check'
+import BackIcon from '@mui/icons-material/ArrowBack'
 
 function CardButton({
     label,
     title,
     onClick,
 }:  & {
-    label: string,
+    label: React.ReactNode,
     title?: string,
     onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
 }) {
@@ -40,27 +43,23 @@ export default function ItemCardActions({
 
     return <CardActions>
         <Grid container p={1}>
-            {/* <CardButton
-                label="..."
-                title="Edit details"
-            /> */}
             {context === "AwaitingList" ? <>
                 <CardButton
-                    label="Delete"
+                    label={<><DeleteIcon /> Delete</>}
                     onClick={() => deleteItemFromAwaitedProducts(item)}
                 />
                 <CardButton
-                    label="Archive"
+                    label={<><CheckIcon /> Archive</>}
                     title="Confirm delivery and archive"
                     onClick={() => archiveItem(item)}
                 />
             </> : <>
                 <CardButton
-                    label="Delete"
+                    label={<><DeleteIcon /> Delete</>}
                     onClick={() => deleteItemFromArchivedProducts(item)}
                 />
                 <CardButton
-                    label="Dearchive"
+                    label={<><BackIcon /> Dearchive</>}
                     onClick={() => dearchiveItem(item)}
                 />
             </>}

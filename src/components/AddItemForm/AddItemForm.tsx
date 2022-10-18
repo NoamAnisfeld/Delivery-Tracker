@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
+import AddIcon from '@mui/icons-material/Add'
 
 function formatDateToValueString(date: Date) { // yyyy-mm-dd
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -38,7 +39,7 @@ export default function AddItemForm() {
         <Button variant="contained" sx={{ m: 2 }}
             onClick={() => setToggleDialog(true)}
         >
-            + Add item
+            <AddIcon /> Add item
         </Button>
 
         <Dialog
