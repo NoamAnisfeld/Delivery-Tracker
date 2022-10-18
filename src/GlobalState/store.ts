@@ -40,68 +40,68 @@ export const mainSlice = createSlice({
     name: 'main',
     initialState: placeholderGlobalState,
     reducers: {
-        setSelectedExampleProduct(state, { payload }: PayloadAction<ExampleProduct | null>) {
-            state.selectedExampleProduct = payload;
+        setSelectedExampleProduct(draftState, { payload }: PayloadAction<ExampleProduct | null>) {
+            draftState.selectedExampleProduct = payload;
         },
 
-        addItemToAwaitedProducts(state, { payload }: PayloadAction<PurcashedProduct>) {
-            state.awaitedProducts.push(payload)
-            saveLists(state);
+        addItemToAwaitedProducts(draftState, { payload }: PayloadAction<PurcashedProduct>) {
+            draftState.awaitedProducts.push(payload)
+            saveLists(draftState);
         },
 
-        deleteItemFromAwaitedProducts(state, { payload }: PayloadAction<PurcashedProduct>) {
-            state.awaitedProducts = original(state.awaitedProducts)!.filter(
-                item => item === payload);
-            saveLists(state);
+        deleteItemFromAwaitedProducts(draftState, { payload }: PayloadAction<PurcashedProduct>) {
+            draftState.awaitedProducts = draftState.awaitedProducts.filter(
+                item => item.uniqueKey === payload.uniqueKey);
+            saveLists(draftState);
         },
     
-        archiveItem(state, { payload }: PayloadAction<PurcashedProduct>) {
-            state.awaitedProducts = original(state.awaitedProducts)!.filter(
-                item => item !== payload);
-            state.archivedProducts.push(payload);
+        archiveItem(draftState, { payload }: PayloadAction<PurcashedProduct>) {
+            draftState.awaitedProducts = draftState.awaitedProducts.filter(
+                item => item.uniqueKey === payload.uniqueKey);
+            draftState.archivedProducts.push(payload);
             
-            saveLists(state);
+            saveLists(draftState);
         },
         
-        dearchiveItem(state, { payload }: PayloadAction<PurcashedProduct>) {            
-            state.archivedProducts = original(state.archivedProducts)!.filter(
-                item => item !== payload);
-            state.awaitedProducts.push(payload);
+        dearchiveItem(draftState, { payload }: PayloadAction<PurcashedProduct>) {            
+            draftState.archivedProducts = draftState.archivedProducts.filter(
+                item => item.uniqueKey === payload.uniqueKey);
+            draftState.awaitedProducts.push(payload);
                 
-            saveLists(state);
+            saveLists(draftState);
         },
             
-        deleteItemFromArchivedProducts(state, { payload }: PayloadAction<PurcashedProduct>) {
-            state.archivedProducts = original(state.archivedProducts)!.filter(
-                item => item === payload);
+        deleteItemFromArchivedProducts(draftState, { payload }: PayloadAction<PurcashedProduct>) {
+            draftState.archivedProducts = draftState.archivedProducts.filter(
+                item => item.uniqueKey === payload.uniqueKey);
                     
-            saveLists(state);
+            saveLists(draftState);
         },
                 
-        setCardsView(state, { payload }: PayloadAction<boolean>) {
-            state.cardsView = payload;
+        setCardsView(draftState, { payload }: PayloadAction<boolean>) {
+            draftState.cardsView = payload;
         },
                 
-        setSelectedCurrency(state, { payload }: PayloadAction<string>) {
-            state.selectedCurrency = payload;
+        setSelectedCurrency(draftState, { payload }: PayloadAction<string>) {
+            draftState.selectedCurrency = payload;
         },
                 
-        setAwaitedProducts(state, { payload }: PayloadAction<PurcashedProduct[]>) {
-            state.awaitedProducts = payload;
+        setAwaitedProducts(draftState, { payload }: PayloadAction<PurcashedProduct[]>) {
+            draftState.awaitedProducts = payload;
         },
                 
-        setArchivedProducts(state, { payload }: PayloadAction<PurcashedProduct[]>) {
-            state.archivedProducts = payload;
+        setArchivedProducts(draftState, { payload }: PayloadAction<PurcashedProduct[]>) {
+            draftState.archivedProducts = payload;
         },
 
-        setExchangeRates(state, { payload }: PayloadAction<{
+        setExchangeRates(draftState, { payload }: PayloadAction<{
             [currencyCode: string]: number;
         }>) {
-            state.availableCurrencies.USD.exchangeRates = payload;
+            draftState.availableCurrencies.USD.exchangeRates = payload;
         },
                 
-        setExampleProducts(state, { payload }: PayloadAction<ExampleProduct[]>) {
-            state.exampleProducts = payload;
+        setExampleProducts(draftState, { payload }: PayloadAction<ExampleProduct[]>) {
+            draftState.exampleProducts = payload;
         },
     }
 });
