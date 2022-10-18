@@ -12,7 +12,6 @@ import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
-import { EventBusy } from '@mui/icons-material'
 
 function formatDateToValueString(date: Date) { // yyyy-mm-dd
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -22,7 +21,7 @@ export default function AddItemForm() {
     const WEEK = 7 * 24 * 60 * 60 * 1000;
 
     const
-        [isAddItemDialogOpened, setIsAddItemDialogOpened] = useState(false),
+        [toggleDialog, setToggleDialog] = useState(false),
         [name, setName] = useState(''),
         [store, setStore] = useState(''),
         [price, setPrice] = useState(0),
@@ -37,14 +36,14 @@ export default function AddItemForm() {
         p={2}
     >
         <Button variant="contained" sx={{ m: 2 }}
-            onClick={() => setIsAddItemDialogOpened(true)}
+            onClick={() => setToggleDialog(true)}
         >
             + Add item
         </Button>
 
         <Dialog
-            open={isAddItemDialogOpened}
-            onClose={() => setIsAddItemDialogOpened(false)}
+            open={toggleDialog}
+            onClose={() => setToggleDialog(false)}
         >
             <Grid container p={3} spacing={3}>
                 <Grid item flexBasis="50%">
@@ -121,13 +120,13 @@ export default function AddItemForm() {
             </Grid>
 
             <Grid container p={2} justifyContent="end" gap={2}>
-                <Button onClick={() => setIsAddItemDialogOpened(false)}>
+                <Button onClick={() => setToggleDialog(false)}>
                     Cancel
                 </Button>
 
                 <Button variant="contained"
                     onClick={() => {
-                        setIsAddItemDialogOpened(false);
+                        setToggleDialog(false);
                         addItemToAwaitedProducts(new PurcashedProduct({
                             name,
                             store,
