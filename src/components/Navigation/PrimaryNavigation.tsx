@@ -10,8 +10,14 @@ import MenuItem from '@mui/material/MenuItem'
 import { Link } from 'react-router-dom'
 
 export default function PrimaryNavigation() {
-    const availableCurrencies = useAppSelector(state => state.availableCurrencies);
-    const selectedCurrency = useAppSelector(state => state.selectedCurrency);
+    const
+        selectedCurrency = useAppSelector(state => state.selectedCurrency),
+        availableCurrencies = useAppSelector(state => state.availableCurrencies),
+        filteredCurrencyEntries = Object.entries(availableCurrencies).filter(
+            ([currencyCode]) =>
+                currencyCode === 'USD' ||
+                availableCurrencies.USD.exchangeRates[currencyCode]
+        );
 
     return <Grid container p={2} bgcolor="#aaa" alignItems="center" justifyContent="space-between">
         <Grid item container xs="auto" columnSpacing={2} alignItems="center">
@@ -31,15 +37,17 @@ export default function PrimaryNavigation() {
                     value={selectedCurrency}
                     onChange={e => setSelectedCurrency(e.target.value)}
                 >
-                    {Object.entries(availableCurrencies)
-                        .filter(([currencyCode]) =>
-                            currencyCode === 'USD' ||
-                            availableCurrencies.USD.exchangeRates[currencyCode]
-                        ).map(([currencyCode, currency]) =>
-                            <MenuItem value={currencyCode} key={currencyCode}>
-                                {currency.name} {currency.sign}
-                            </MenuItem>
-                        )}
+                    {filteredCurrencyEntries.map(([currencyCode, currency]) =>
+                        <MenuItem value={currencyCode} key={currencyCode}>
+                            {currency.name} {currency.sign}
+                        </MenuItem>
+                    ).concat(
+                        filteredCurrencyEntries.length < 2 ?
+                        [<MenuItem value="" key="error" disabled>
+                            Failed to fetch exchange rates for additional currencies
+                        </MenuItem>] :
+                        []
+                    )}
                 </Select>
             </Grid>
         </Grid>
