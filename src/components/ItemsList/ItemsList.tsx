@@ -54,14 +54,14 @@ export default function ItemsList({
                 {...{ item, context }}
             />)}
         </Grid> :
-        <TableContainer><Table stickyHeader>
+        <TableContainer><Table stickyHeader sx={{ tableLayout: "fixed" }}>
             <TableHead>
                 <TableRow>
-                    <TableCell>Item name</TableCell>
-                    <TableCell>Store</TableCell>
-                    <TableCell>Price</TableCell>
-                    <TableCell>Delivery estimate</TableCell>
-                    <TableCell>Actions</TableCell>
+                    <TableCell sx={{ width:"min(30vw, 30ch)" }}>Item name</TableCell>
+                    <TableCell sx={{ width:"min(15vw, 15ch)" }}>Store</TableCell>
+                    <TableCell sx={{ width:"min(10vw, 10ch)" }}>Price</TableCell>
+                    <TableCell sx={{ width:"min(15vw, 15ch)" }}>Delivery estimate</TableCell>
+                    <TableCell sx={{ width:"min(30vw, 30ch)" }}>Actions</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
