@@ -1,46 +1,75 @@
 // This should actually use server-side storage, but for the assignment
 // I'll use the browser's local storage
-
 import PurcashedProduct from "../data structures/PurcashedProduct";
+
+const STORAGE_KEY = 'DeliveryTracker';
+
+interface OriginalData {
+    awaitedProducts: PurcashedProduct[],
+    archivedProducts: PurcashedProduct[],
+}
+
+type SerializablePurcashedProduct = Pick<PurcashedProduct,
+    "name" | "store" | "price"
+> & {
+    estimatedDeliveryDate: number | null
+}
+
+interface SerializableData {
+    awaitedProducts: SerializablePurcashedProduct[],
+    archivedProducts: SerializablePurcashedProduct[],
+}
 
 function safeJSONParse<T>(
     jsonData: string,
-    defaultResult: T,
-    jsonReviver?: (key: string, value: any) => any
+    defaultResult?: T,
 ) {
     try {
-        return JSON.parse(jsonData, jsonReviver);
+        return JSON.parse(jsonData);
     } catch (error) {
         if (error instanceof SyntaxError)
             return defaultResult;
-        
+
         throw error;
     }
 }
 
-function dateValueReviver(key: string, value: any) {
-    if (key === 'estimatedDeliveryDate')
-        return new Date(Date.parse(value));
-    
-    return value;
-}
+export function fetchSavedLists(): OriginalData {
+    const emptyData: OriginalData = {
+        awaitedProducts: [],
+        archivedProducts: [],
+    }
 
-export function fetchSavedLists(): {
-    awaitedProducts: PurcashedProduct[],
-    archivedProducts: PurcashedProduct[],
-} {
-    return {
-        awaitedProducts: safeJSONParse(
-            localStorage.getItem('awaitedProducts') || '[]',
-            [],
-            dateValueReviver
-        ),
+    const storageData = localStorage.getItem(STORAGE_KEY);
+    if (!storageData)
+        return emptyData;
 
-        archivedProducts: safeJSONParse(
-            localStorage.getItem('archivedProducts') || '[]',
-            [],
-            dateValueReviver
-        ),
+    try {
+        const parsedData: SerializableData = JSON.parse(storageData);
+
+        return {
+            awaitedProducts: parsedData.awaitedProducts.map(item =>
+            (new PurcashedProduct({
+                name: item.name,
+                store: item.store,
+                price: item.price,
+                estimatedDeliveryDate: item.estimatedDeliveryDate ?
+                    new Date(item.estimatedDeliveryDate) : undefined
+            }))
+            ),
+
+            archivedProducts: parsedData.archivedProducts.map(item =>
+            (new PurcashedProduct({
+                name: item.name,
+                store: item.store,
+                price: item.price,
+                estimatedDeliveryDate: item.estimatedDeliveryDate ?
+                    new Date(item.estimatedDeliveryDate) : undefined
+            }))
+            ),
+        }
+    } catch (e) {
+        return emptyData;
     }
 }
 
@@ -51,12 +80,22 @@ export function saveLists({
     awaitedProducts: PurcashedProduct[],
     archivedProducts: PurcashedProduct[],
 }) {
-    localStorage.setItem(
-        'awaitedProducts',
-        JSON.stringify(awaitedProducts)
-    );
-    localStorage.setItem(
-        'archivedProducts',
-        JSON.stringify(archivedProducts)
-    );
+    const awaitedToSave = awaitedProducts.map(item => ({
+        name: item.name,
+        store: item.store,
+        price: item.price,
+        estimatedDeliveryDate: item.estimatedDeliveryDate?.valueOf() || null,
+    }));
+
+    const archivedToSave = archivedProducts.map(item => ({
+        name: item.name,
+        store: item.store,
+        price: item.price,
+        estimatedDeliveryDate: item.estimatedDeliveryDate?.valueOf() || null,
+    }));
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        awaitedProducts: awaitedToSave,
+        archivedProducts: archivedToSave,
+    }));
 }
