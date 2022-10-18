@@ -48,17 +48,28 @@ export default function AddItemForm() {
             <Grid container p={3} spacing={3}>
                 <Grid item flexBasis="50%">
                     <Autocomplete
-                        freeSolo={true}
+                        freeSolo
+                        selectOnFocus
+                        handleHomeEndKeys
+                        autoComplete
+                        autoHighlight
+                        openOnFocus
+
                         options={Object.values(exampleProducts).map(item => ({
                             label: item.title,
                             item
                         })) || []}
-                        isOptionEqualToValue={(option, value) => option.item.id === value.item.id}
+
+                        renderOption={(props, option) => <li {...props}>
+                            {`${option.item.title} (${option.item.price || 0}$)`}
+                        </li>}
+
                         renderInput={params =>
                             <TextField
                                 {...params}
                                 label="Name"
                             />}
+
                         onChange={(event, value) => {
                             if (typeof value === 'string') {
                                 setName(value)
@@ -72,6 +83,7 @@ export default function AddItemForm() {
                         }}
                     />
                 </Grid>
+
                 <Grid item flexBasis="50%">
                     <TextField
                         label="Store"
@@ -81,6 +93,7 @@ export default function AddItemForm() {
                         onChange={e => setStore(e.target.value)}
                     />
                 </Grid>
+
                 <Grid item container flexBasis="50%" alignItems="center">
                     <span style={{ marginLeft: "-1ch" }}>$</span>
                     <TextField
@@ -91,6 +104,7 @@ export default function AddItemForm() {
                         onChange={e => setPrice(Number(e.target.value))}
                     />
                 </Grid>
+
                 <Grid item flexBasis="50%">
                     <TextField type="date"
                         label="Recieve date estimation"
@@ -100,10 +114,12 @@ export default function AddItemForm() {
                     />
                 </Grid>
             </Grid>
+
             <Grid container p={2} justifyContent="end" gap={2}>
                 <Button onClick={() => setIsAddItemDialogOpened(false)}>
                     Cancel
                 </Button>
+
                 <Button variant="contained"
                     onClick={() => {
                         setIsAddItemDialogOpened(false);
