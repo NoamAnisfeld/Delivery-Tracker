@@ -8,7 +8,6 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import {
     createSlice,
     configureStore,
-    original,
 } from "@reduxjs/toolkit";
 
 const placeholderGlobalState: GlobalStateInterface = {

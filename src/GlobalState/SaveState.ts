@@ -20,20 +20,6 @@ interface SerializableData {
     archivedProducts: SerializablePurcashedProduct[],
 }
 
-function safeJSONParse<T>(
-    jsonData: string,
-    defaultResult?: T,
-) {
-    try {
-        return JSON.parse(jsonData);
-    } catch (error) {
-        if (error instanceof SyntaxError)
-            return defaultResult;
-
-        throw error;
-    }
-}
-
 export function fetchSavedLists(): OriginalData {
     const emptyData: OriginalData = {
         awaitedProducts: [],
