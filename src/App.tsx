@@ -1,7 +1,6 @@
 import './App.css';
-import Navigation from './components/Navigation/Navigation';
+import PrimaryNavigation from './components/Navigation/PrimaryNavigation';
 import Main from './components/Main/Main';
-import Archive from './components/Archive/Archive';
 
 import { HashRouter, Routes, Route } from 'react-router-dom';
 
@@ -10,10 +9,10 @@ function App() {
   return (
     <div className="App">
       <HashRouter>
-        <Navigation />
+        <PrimaryNavigation />
         <Routes>
-          <Route index element={<Main />} />
-          <Route path="archive" element={<Archive />} />
+          <Route index path="/*" element={<Main />} />
+          <Route path="stores" element={<>WIP</>} />
         </Routes>
       </HashRouter>
     </div>
