@@ -51,13 +51,13 @@ export const mainSlice = createSlice({
 
         deleteItemFromAwaitedProducts(draftState, { payload }: PayloadAction<PurcashedProduct>) {
             draftState.awaitedProducts = draftState.awaitedProducts.filter(
-                item => item.uniqueKey === payload.uniqueKey);
+                item => item.uniqueKey !== payload.uniqueKey);
             saveLists(draftState);
         },
     
         archiveItem(draftState, { payload }: PayloadAction<PurcashedProduct>) {
             draftState.awaitedProducts = draftState.awaitedProducts.filter(
-                item => item.uniqueKey === payload.uniqueKey);
+                item => item.uniqueKey !== payload.uniqueKey);
             draftState.archivedProducts.push(payload);
             
             saveLists(draftState);
@@ -65,7 +65,7 @@ export const mainSlice = createSlice({
         
         dearchiveItem(draftState, { payload }: PayloadAction<PurcashedProduct>) {            
             draftState.archivedProducts = draftState.archivedProducts.filter(
-                item => item.uniqueKey === payload.uniqueKey);
+                item => item.uniqueKey !== payload.uniqueKey);
             draftState.awaitedProducts.push(payload);
                 
             saveLists(draftState);
@@ -73,7 +73,7 @@ export const mainSlice = createSlice({
             
         deleteItemFromArchivedProducts(draftState, { payload }: PayloadAction<PurcashedProduct>) {
             draftState.archivedProducts = draftState.archivedProducts.filter(
-                item => item.uniqueKey === payload.uniqueKey);
+                item => item.uniqueKey !== payload.uniqueKey);
                     
             saveLists(draftState);
         },

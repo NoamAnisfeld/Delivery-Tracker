@@ -66,7 +66,7 @@ export default function ItemsList({
             </TableHead>
             <TableBody>
                 {sortedItems.map(item => <TableRow key={item.uniqueKey}>
-                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.name} ({item.uniqueKey})</TableCell>
                     <TableCell>{item.store}</TableCell>
                     <TableCell><Price priceInUSDollars={item.price} /></TableCell>
                     <TableCell>
