@@ -1,6 +1,5 @@
 import { useAppSelector } from '../../GlobalState/interface'
 import {
-    setCardsView,
     setSelectedCurrency,
 } from '../../GlobalState/dispatchers'
 
@@ -11,7 +10,6 @@ import MenuItem from '@mui/material/MenuItem'
 import { Link } from 'react-router-dom'
 
 export default function PrimaryNavigation() {
-    const cardsView = useAppSelector(state => state.cardsView);
     const availableCurrencies = useAppSelector(state => state.availableCurrencies);
     const selectedCurrency = useAppSelector(state => state.selectedCurrency);
 
@@ -42,15 +40,6 @@ export default function PrimaryNavigation() {
                                 {currency.name} {currency.sign}
                             </MenuItem>
                         )}
-                </Select>
-            </Grid>
-            <Grid item>
-                <Select variant="standard"
-                    value={cardsView ? "cardsView" : "tableView"}
-                    onChange={e => setCardsView(e.target.value === "cardsView")}
-                >
-                    <MenuItem value="tableView">Table view</MenuItem>
-                    <MenuItem value="cardsView">Cards view</MenuItem>
                 </Select>
             </Grid>
         </Grid>
