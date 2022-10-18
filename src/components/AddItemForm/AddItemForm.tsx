@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
+import { EventBusy } from '@mui/icons-material'
 
 function formatDateToValueString(date: Date) { // yyyy-mm-dd
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -80,6 +81,10 @@ export default function AddItemForm() {
                                         value.item.price : price
                                 );
                             }
+                        }}
+
+                        onInputChange={(event, value) => {
+                            setName(value);
                         }}
                     />
                 </Grid>
