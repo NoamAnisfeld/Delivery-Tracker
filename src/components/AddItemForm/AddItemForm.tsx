@@ -133,6 +133,8 @@ export default function AddItemForm() {
                             price,
                             estimatedDeliveryDate
                         }));
+                        setName('');
+                        setPrice(0);
                     }}
                 >
                     Add
