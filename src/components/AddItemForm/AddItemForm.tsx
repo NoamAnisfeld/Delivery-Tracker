@@ -100,10 +100,12 @@ export default function AddItemForm() {
                 </Grid>
 
                 <Grid item container flexBasis="50%" alignItems="center">
-                    <span style={{ marginLeft: "-1ch" }}>$</span>
                     <TextField
                         label="Price"
                         type="number"
+                        InputProps={{
+                            startAdornment: "$"
+                        }}
                         sx={{ width: "100%" }}
                         value={String(price)}
                         onChange={e => setPrice(Number(e.target.value))}
