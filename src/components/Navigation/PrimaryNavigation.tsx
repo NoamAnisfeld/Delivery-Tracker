@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+
 import { useAppSelector } from '../../GlobalState/interface'
 import {
     setSelectedCurrency,
@@ -18,6 +20,17 @@ export default function PrimaryNavigation() {
                 currencyCode === 'USD' ||
                 availableCurrencies.USD.exchangeRates[currencyCode]
         );
+
+    // for some unclear reason, the update to store.availableCurrencies does
+    // not cause a rerender automatically, despite the component subscribing
+    // above via useSelector
+    const [toggleRerenderHack, setToggleRerenderHack] = useState(false);
+    useEffect(() => {
+        if (!toggleRerenderHack)
+            setTimeout(() => {
+                setToggleRerenderHack(true);
+            }, 5000);
+    }, []);
 
     return <Grid container p={2} bgcolor="#aaa" alignItems="center" justifyContent="space-between">
         <Grid item container xs="auto" columnSpacing={2} alignItems="center">
