@@ -23,6 +23,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete'
 import CheckIcon from '@mui/icons-material/Check'
 import BackIcon from '@mui/icons-material/ArrowBack'
+import Typography from "@mui/material/Typography";
 
 export default function ItemsList({
     items,
@@ -65,7 +66,14 @@ export default function ItemsList({
                 </TableRow>
             </TableHead>
             <TableBody>
-                {sortedItems.map(item => <TableRow key={item.uniqueKey}>
+                {sortedItems.map(item => <TableRow
+                    key={item.uniqueKey}
+                    sx={{
+                        '& .MuiTableCell-root': {
+                            py: 0,
+                        }
+                    }}
+                >
                     <TableCell>{item.name}</TableCell>
                     <TableCell>{item.store}</TableCell>
                     <TableCell><Price priceInUSDollars={item.price} /></TableCell>
@@ -75,16 +83,38 @@ export default function ItemsList({
                             item.estimatedDeliveryDate?.toLocaleDateString()}
                     </TableCell>
                     <TableCell>{context === "AwaitingList" ? <>
-                        <Button variant="outlined" sx={{ mx: 1 }}
+                        <Button variant="outlined" sx={{ m: 1 }}
                             onClick={() => archiveItem(item)}
                         >
-                            <CheckIcon /> Archive
+                            <CheckIcon />
+                            <Typography
+                                component="span"
+                                sx={{
+                                    display: {
+                                        xs: "none",
+                                        sm: "inline",
+                                    }
+                                }}
+                            >
+                                Archive
+                            </Typography>
                         </Button>
 
-                        <Button variant="outlined" sx={{ mx: 1 }}
+                        <Button variant="outlined" sx={{ m: 1 }}
                             onClick={() => deleteItemFromAwaitedProducts(item)}
                         >
-                            <DeleteIcon /> Delete
+                            <DeleteIcon />
+                            <Typography
+                                component="span"
+                                sx={{
+                                    display: {
+                                        xs: "none",
+                                        sm: "inline",
+                                    }
+                                }}
+                            >
+                                Delete
+                            </Typography>
                         </Button>
                     </> : <>
                         <Button variant="outlined" sx={{ mx: 1 }}
