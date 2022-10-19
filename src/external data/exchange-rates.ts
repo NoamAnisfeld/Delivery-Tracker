@@ -1,4 +1,5 @@
-const API_KEY = 'GZqr0BWgRYojzkcnWYzRBmyRJmuBdIje';
+// const API_KEY = 'GZqr0BWgRYojzkcnWYzRBmyRJmuBdIje'; // reached monthly limit
+const API_KEY = 'BxQSAkRhvC0DRPbP0OJNEtY4pBJPF6SE';
 const API_URL = 'https://api.apilayer.com/exchangerates_data/latest?apikey=' + API_KEY;
 
 export async function fetchLatestExchangeRates({
