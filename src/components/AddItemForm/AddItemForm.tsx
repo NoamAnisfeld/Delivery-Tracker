@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import PurcashedProduct from '../../data structures/PurcashedProduct'
+import PurcashedProduct from '../../data-structures/PurcashedProduct'
 
 import { useAppSelector } from '../../GlobalState/interface'
 import {

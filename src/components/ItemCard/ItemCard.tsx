@@ -1,4 +1,4 @@
-import PurcashedProduct from "../../data structures/PurcashedProduct";
+import PurcashedProduct from "../../data-structures/PurcashedProduct";
 import Price from "../Price/Price";
 
 import Grid from "@mui/material/Grid"

@@ -1,6 +1,6 @@
 import store, { mainSlice } from "./store";
 import type { ExampleProduct } from "../interfaces/interfaces";
-import type PurcashedProduct from "../data structures/PurcashedProduct";
+import type PurcashedProduct from "../data-structures/PurcashedProduct";
 
 export const
     setSelectedExampleProduct = (product: ExampleProduct | null) =>

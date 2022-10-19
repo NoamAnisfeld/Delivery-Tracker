@@ -1,4 +1,4 @@
-import type PurcashedProduct from '../../data structures/PurcashedProduct'
+import type PurcashedProduct from '../../data-structures/PurcashedProduct'
 import {
     deleteItemFromAwaitedProducts,
     deleteItemFromArchivedProducts,

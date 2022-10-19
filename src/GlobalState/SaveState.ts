@@ -1,6 +1,6 @@
 // This should actually use server-side storage, but for the assignment
 // I'll use the browser's local storage
-import PurcashedProduct from "../data structures/PurcashedProduct";
+import PurcashedProduct from "../data-structures/PurcashedProduct";
 
 const STORAGE_KEY = 'DeliveryTracker';
 

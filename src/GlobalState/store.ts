@@ -1,7 +1,7 @@
 import type { GlobalStateInterface } from "./interface";
 import type { ExampleProduct } from "../interfaces/interfaces";
-import type PurcashedProduct from "../data structures/PurcashedProduct";
-import Currency from "../data structures/Currency";
+import type PurcashedProduct from "../data-structures/PurcashedProduct";
+import Currency from "../data-structures/Currency";
 import { saveLists } from "./SaveState";
 
 import type { PayloadAction } from "@reduxjs/toolkit";

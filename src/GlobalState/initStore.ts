@@ -1,6 +1,6 @@
-import { fetchProductsList } from "../external data/products-list";
+import { fetchProductsList } from "../external-data/products-list";
 import { fetchSavedLists, saveLists } from "./SaveState";
-import { pollExchangeRates } from "../external data/exchange-rates";
+import { pollExchangeRates } from "../external-data/exchange-rates";
 
 import store, { mainSlice } from './store';
 
