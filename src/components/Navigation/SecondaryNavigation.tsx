@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useMatch } from 'react-router-dom'
 
 import { useAppSelector } from '../../GlobalState/interface'
 import {
@@ -8,17 +8,30 @@ import {
 import Grid from '@mui/material/Grid'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import VisualLink from '@mui/material/Link'
 
 export default function SecondaryNavigation() {
     const cardsView = useAppSelector(state => state.cardsView);
 
-    return <Grid container p={2} bgcolor="#ccc" alignItems="center" justifyContent="space-between">
+    return <Grid container px={2} bgcolor="#ccc" alignItems="center" justifyContent="space-between">
         <Grid item container xs="auto" columnSpacing={2} alignItems="center">
-            <Grid item>
-                <Link to="/">Delivery</Link>
+            <Grid item p={2}
+                sx={
+                    useMatch("") ? { background: "#ddd" } : {}
+                }
+            >
+                <VisualLink component={Link} to="/" color="inherit" underline="none">
+                    Delivery
+                </VisualLink>
             </Grid>
-            <Grid item>
-                <Link to="/archive">Archived items</Link>
+            <Grid item p={2}
+                sx={
+                    useMatch("archive") ? { background: "#ddd" } : {}
+                }
+            >
+                <VisualLink component={Link} to="archive" color="inherit" underline="none">
+                    Archived items
+                </VisualLink>
             </Grid>
         </Grid>
         <Grid item>

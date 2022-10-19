@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link, useMatch } from 'react-router-dom'
 
 import { useAppSelector } from '../../GlobalState/interface'
 import {
@@ -8,8 +9,7 @@ import {
 import Grid from '@mui/material/Grid'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
-
-import { Link } from 'react-router-dom'
+import VisualLink from '@mui/material/Link'
 
 export default function PrimaryNavigation() {
     const
@@ -32,13 +32,24 @@ export default function PrimaryNavigation() {
             }, 5000);
     });
 
-    return <Grid container p={2} bgcolor="#aaa" alignItems="center" justifyContent="space-between">
-        <Grid item container xs="auto" columnSpacing={2} alignItems="center">
-            <Grid item>
-                <Link to="/">Purcash by item</Link>
+    return <Grid container bgcolor="#aaa" alignItems="center" justifyContent="space-between">
+        <Grid item container px={2} xs="auto" columnSpacing={2} alignItems="center">
+            <Grid item p={2}
+                sx={
+                    [useMatch(""), useMatch("archive")].some(value => value) ?
+                    { background: "#ddd" } : {}
+                }
+            >
+                <VisualLink component={Link} to="/" color="inherit" underline="none">
+                    Purcash by item
+                </VisualLink>
             </Grid>
-            <Grid item>
-                <Link to="/stores">Purcash by stores</Link>
+            <Grid item p={2}
+                sx={ useMatch("stores") ? { background: "#ddd" } : {} }
+            >
+                <VisualLink component={Link} to="stores" color="inherit" underline="none">
+                    Purcash by stores
+                </VisualLink>
             </Grid>
         </Grid>
         <Grid item container xs="auto" columnSpacing={2} alignItems="center">
