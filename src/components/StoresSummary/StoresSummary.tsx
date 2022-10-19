@@ -9,7 +9,6 @@ import TableFooter from '@mui/material/TableFooter';
 import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import { minHeight } from '@mui/system';
 
 export default function StoresSummary() {
     const [storesArray, totalAllItems, totalAllPrice] = useStoresData();

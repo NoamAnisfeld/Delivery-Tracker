@@ -1,4 +1,3 @@
-import { TupleType } from "typescript";
 import PurcashedProduct from "../../data structures/PurcashedProduct";
 import { useAppSelector } from "../../GlobalState/interface";
 
@@ -28,7 +27,7 @@ export default function useStoresData(): [
     let totalAllItems = 0,
         totalAllPrice = 0;
 
-    (<PurcashedProduct[]>[])
+    ([] as PurcashedProduct[])
     .concat(awaitedProducts, archivedProducts)
     .forEach(item => {
         const key = item.store || keyForUnknownStore;

@@ -30,7 +30,7 @@ export default function PrimaryNavigation() {
             setTimeout(() => {
                 setToggleRerenderHack(true);
             }, 5000);
-    }, []);
+    });
 
     return <Grid container p={2} bgcolor="#aaa" alignItems="center" justifyContent="space-between">
         <Grid item container xs="auto" columnSpacing={2} alignItems="center">
