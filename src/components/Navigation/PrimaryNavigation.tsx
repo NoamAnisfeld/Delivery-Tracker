@@ -6,6 +6,8 @@ import {
     setSelectedCurrency,
 } from '../../GlobalState/dispatchers'
 
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
 import Grid from '@mui/material/Grid'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
@@ -32,48 +34,61 @@ export default function PrimaryNavigation() {
             }, 5000);
     });
 
-    return <Grid container bgcolor="#aaa" alignItems="center" justifyContent="space-between">
-        <Grid item container px={4} xs="auto" columnSpacing={2} alignItems="center">
-            <Grid item p={2}
-                sx={
-                    [useMatch(""), useMatch("archive")].some(value => value) ?
-                    { background: "#ddd" } : {}
-                }
-            >
-                <VisualLink component={Link} to="/" color="inherit" underline="none">
-                    Purcash by item
-                </VisualLink>
-            </Grid>
-            <Grid item p={2}
-                sx={ useMatch("stores") ? { background: "#ddd" } : {} }
-            >
-                <VisualLink component={Link} to="stores" color="inherit" underline="none">
-                    Purcash by stores
-                </VisualLink>
-            </Grid>
-        </Grid>
-        <Grid item container xs="auto" columnSpacing={2} alignItems="center">
-            <Grid item>
-                Currency:
-            </Grid>
-            <Grid item>
-                <Select variant="standard"
-                    value={selectedCurrency}
-                    onChange={e => setSelectedCurrency(e.target.value)}
+    return <AppBar position="static"><Toolbar>
+        <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item container px={{ sm: 2 }} xs="auto" columnSpacing={2} alignItems="center">
+                <Grid item p={2}
+                    sx={
+                        [useMatch(""), useMatch("archive")].some(value => value) ?
+                            { fontWeight: "bold" } : {}
+                    }
                 >
-                    {filteredCurrencyEntries.map(([currencyCode, currency]) =>
-                        <MenuItem value={currencyCode} key={currencyCode}>
-                            {currency.name} {currency.sign}
-                        </MenuItem>
-                    ).concat(
-                        filteredCurrencyEntries.length < 2 ?
-                        [<MenuItem value="" key="error" disabled>
-                            Failed to fetch exchange rates for additional currencies
-                        </MenuItem>] :
-                        []
-                    )}
-                </Select>
+                    <VisualLink component={Link} to="/" color="inherit" underline="none">
+                        Purcash by item
+                    </VisualLink>
+                </Grid>
+                <Grid item p={2}
+                    sx={useMatch("stores") ? { fontWeight: "bold" } : {}}
+                >
+                    <VisualLink component={Link} to="stores" color="inherit" underline="none">
+                        Purcash by stores
+                    </VisualLink>
+                </Grid>
+            </Grid>
+            <Grid item container
+                xs="auto"
+                marginLeft="auto"
+                columnSpacing={2}
+                alignItems="center"
+            >
+                <Grid item>
+                    Currency:
+                </Grid>
+                <Grid item>
+                    <Select variant="standard"
+                        sx={{
+                            color: "secondary.contrastText",
+                            '& .MuiSelect-select': {
+                                paddingBottom: 0,
+                            }
+                        }}
+                        value={selectedCurrency}
+                        onChange={e => setSelectedCurrency(e.target.value)}
+                    >
+                        {filteredCurrencyEntries.map(([currencyCode, currency]) =>
+                            <MenuItem value={currencyCode} key={currencyCode}>
+                                {currency.name} {currency.sign}
+                            </MenuItem>
+                        ).concat(
+                            filteredCurrencyEntries.length < 2 ?
+                                [<MenuItem value="" key="error" disabled>
+                                    Failed to fetch exchange rates for additional currencies
+                                </MenuItem>] :
+                                []
+                        )}
+                    </Select>
+                </Grid>
             </Grid>
         </Grid>
-    </Grid>
+    </Toolbar></AppBar >
 }
