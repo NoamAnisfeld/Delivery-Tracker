@@ -13,11 +13,11 @@ import VisualLink from '@mui/material/Link'
 export default function SecondaryNavigation() {
     const cardsView = useAppSelector(state => state.cardsView);
 
-    return <Grid container px={2} bgcolor="#ccc" alignItems="center" justifyContent="space-between">
+    return <Grid container px={4} bgcolor="#ccc" alignItems="center" justifyContent="space-between">
         <Grid item container xs="auto" columnSpacing={2} alignItems="center">
             <Grid item p={2}
                 sx={
-                    useMatch("") ? { background: "#ddd" } : {}
+                    useMatch("") ? { background: "#bbb" } : {}
                 }
             >
                 <VisualLink component={Link} to="/" color="inherit" underline="none">
@@ -26,7 +26,7 @@ export default function SecondaryNavigation() {
             </Grid>
             <Grid item p={2}
                 sx={
-                    useMatch("archive") ? { background: "#ddd" } : {}
+                    useMatch("archive") ? { background: "#bbb" } : {}
                 }
             >
                 <VisualLink component={Link} to="archive" color="inherit" underline="none">

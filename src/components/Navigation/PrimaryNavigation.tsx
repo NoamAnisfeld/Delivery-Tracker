@@ -33,7 +33,7 @@ export default function PrimaryNavigation() {
     });
 
     return <Grid container bgcolor="#aaa" alignItems="center" justifyContent="space-between">
-        <Grid item container px={2} xs="auto" columnSpacing={2} alignItems="center">
+        <Grid item container px={4} xs="auto" columnSpacing={2} alignItems="center">
             <Grid item p={2}
                 sx={
                     [useMatch(""), useMatch("archive")].some(value => value) ?
