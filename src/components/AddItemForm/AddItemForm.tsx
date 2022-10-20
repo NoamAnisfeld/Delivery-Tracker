@@ -46,8 +46,20 @@ export default function AddItemForm() {
             open={toggleDialog}
             onClose={() => setToggleDialog(false)}
         >
-            <Grid container p={3} spacing={3}>
-                <Grid item flexBasis="50%">
+            <Grid container p={3} spacing={3} sx={{
+                direction: {
+                    xs: "column",
+                    sm: "row",
+                },
+
+                '& > .MuiGrid-item': {
+                    flexBasis: {
+                        xs: "100%",
+                        sm: "50%",
+                    },
+                }
+            }}>
+                <Grid item>
                     <Autocomplete
                         freeSolo
                         selectOnFocus
@@ -89,7 +101,7 @@ export default function AddItemForm() {
                     />
                 </Grid>
 
-                <Grid item flexBasis="50%">
+                <Grid item>
                     <TextField
                         label="Store"
                         sx={{ width: "100%" }}
@@ -99,7 +111,7 @@ export default function AddItemForm() {
                     />
                 </Grid>
 
-                <Grid item container flexBasis="50%" alignItems="center">
+                <Grid item>
                     <TextField
                         label="Price"
                         type="number"
@@ -112,7 +124,7 @@ export default function AddItemForm() {
                     />
                 </Grid>
 
-                <Grid item flexBasis="50%">
+                <Grid item>
                     <TextField type="date"
                         label="Recieve date estimation"
                         sx={{ width: "100%" }}
