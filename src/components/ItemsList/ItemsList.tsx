@@ -20,10 +20,41 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Button from '@mui/material/Button';
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from '@mui/icons-material/Delete'
 import CheckIcon from '@mui/icons-material/Check'
 import BackIcon from '@mui/icons-material/ArrowBack'
-import Typography from "@mui/material/Typography";
+
+function ActionButton({
+    label,
+    icon,
+    onClick = () => { },
+}: {
+    label: string,
+    icon?: React.ReactNode,
+    onClick?: () => void
+}) {
+    return <Tooltip title={label}>
+        <Button variant="outlined"
+            sx={{
+                m: 1,
+                '& span': {
+                    display: {
+                        xs: "none",
+                        sm: "revert",
+                    }
+                }
+            }}
+            {...{ onClick }}
+        >
+            {icon}
+            <Typography component="span">
+                {label}
+            </Typography>
+        </Button>
+    </Tooltip>
+}
 
 export default function ItemsList({
     items,
@@ -58,11 +89,11 @@ export default function ItemsList({
         <TableContainer><Table stickyHeader sx={{ tableLayout: "fixed" }}>
             <TableHead>
                 <TableRow>
-                    <TableCell sx={{ width:"min(30vw, 30ch)" }}>Item name</TableCell>
-                    <TableCell sx={{ width:"min(15vw, 15ch)" }}>Store</TableCell>
-                    <TableCell sx={{ width:"min(10vw, 10ch)" }}>Price</TableCell>
-                    <TableCell sx={{ width:"min(15vw, 15ch)" }}>Delivery estimate</TableCell>
-                    <TableCell sx={{ width:"min(30vw, 30ch)" }}>Actions</TableCell>
+                    <TableCell sx={{ width: "min(30vw, 30ch)" }}>Item name</TableCell>
+                    <TableCell sx={{ width: "min(15vw, 15ch)" }}>Store</TableCell>
+                    <TableCell sx={{ width: "min(10vw, 10ch)" }}>Price</TableCell>
+                    <TableCell sx={{ width: "min(15vw, 15ch)" }}>Delivery estimate</TableCell>
+                    <TableCell sx={{ width: "min(30vw, 30ch)" }}>Actions</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -82,53 +113,31 @@ export default function ItemsList({
                             <ColoredDate date={item.estimatedDeliveryDate} /> :
                             item.estimatedDeliveryDate?.toLocaleDateString()}
                     </TableCell>
-                    <TableCell>{context === "AwaitingList" ? <>
-                        <Button variant="outlined" sx={{ m: 1 }}
-                            onClick={() => archiveItem(item)}
-                        >
-                            <CheckIcon />
-                            <Typography
-                                component="span"
-                                sx={{
-                                    display: {
-                                        xs: "none",
-                                        sm: "inline",
-                                    }
-                                }}
-                            >
-                                Archive
-                            </Typography>
-                        </Button>
-
-                        <Button variant="outlined" sx={{ m: 1 }}
-                            onClick={() => deleteItemFromAwaitedProducts(item)}
-                        >
-                            <DeleteIcon />
-                            <Typography
-                                component="span"
-                                sx={{
-                                    display: {
-                                        xs: "none",
-                                        sm: "inline",
-                                    }
-                                }}
-                            >
-                                Delete
-                            </Typography>
-                        </Button>
-                    </> : <>
-                        <Button variant="outlined" sx={{ mx: 1 }}
-                            onClick={() => dearchiveItem(item)}
-                        >
-                            <BackIcon /> Dearchive
-                        </Button>
-
-                        <Button variant="outlined" sx={{ mx: 1 }}
-                            onClick={() => deleteItemFromArchivedProducts(item)}
-                        >
-                            <DeleteIcon />Delete
-                        </Button>
-                    </>}</TableCell>
+                    <TableCell>
+                        {context === "AwaitingList" ? <>
+                            <ActionButton
+                                label="Archive"
+                                icon={<CheckIcon />}
+                                onClick={() => archiveItem(item)}
+                            />
+                            <ActionButton
+                                label="Delete"
+                                icon={<DeleteIcon />}
+                                onClick={() => deleteItemFromAwaitedProducts(item)}
+                            />
+                        </> : <>
+                            <ActionButton
+                                label="Dearchive"
+                                icon={<BackIcon />}
+                                onClick={() => dearchiveItem(item)}
+                            />
+                            <ActionButton
+                                label="Delete"
+                                icon={<DeleteIcon />}
+                                onClick={() => deleteItemFromArchivedProducts(item)}
+                            />
+                        </>}
+                    </TableCell>
                 </TableRow>)}
             </TableBody>
         </Table></TableContainer>
