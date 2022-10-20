@@ -16,9 +16,10 @@ export default function SecondaryNavigation() {
     const cardsView = useAppSelector(state => state.cardsView);
 
     return <AppBar position="static" color="secondary"><Toolbar>
-        <Grid container px={{ sm: 4 }} alignItems="center" justifyContent="space-between">
+        <Grid container alignItems="center" justifyContent="space-between">
             <Grid item container
                 xs="auto"
+                marginLeft={{ sm: 2 }}
                 marginRight="10ch"
                 columnSpacing={2}
                 alignItems="center"

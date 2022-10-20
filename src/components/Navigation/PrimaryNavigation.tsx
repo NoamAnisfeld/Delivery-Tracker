@@ -9,7 +9,9 @@ import {
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Grid from '@mui/material/Grid'
+import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
+import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import VisualLink from '@mui/material/Link'
 
@@ -36,7 +38,7 @@ export default function PrimaryNavigation() {
 
     return <AppBar position="static"><Toolbar>
         <Grid container alignItems="center" justifyContent="space-between">
-            <Grid item container px={{ sm: 2 }} xs="auto" columnSpacing={2} alignItems="center">
+            <Grid item container xs="auto" columnSpacing={2} alignItems="center">
                 <Grid item p={2}
                     sx={
                         [useMatch(""), useMatch("archive")].some(value => value) ?
@@ -55,22 +57,17 @@ export default function PrimaryNavigation() {
                     </VisualLink>
                 </Grid>
             </Grid>
-            <Grid item container
+            <Grid item
                 xs="auto"
                 marginLeft="auto"
                 columnSpacing={2}
                 alignItems="center"
             >
-                <Grid item>
-                    Currency:
-                </Grid>
-                <Grid item>
+                <FormControl>
+                    <InputLabel>Currency</InputLabel>
                     <Select variant="standard"
                         sx={{
                             color: "secondary.contrastText",
-                            '& .MuiSelect-select': {
-                                paddingBottom: 0,
-                            }
                         }}
                         value={selectedCurrency}
                         onChange={e => setSelectedCurrency(e.target.value)}
@@ -87,7 +84,7 @@ export default function PrimaryNavigation() {
                                 []
                         )}
                     </Select>
-                </Grid>
+                </FormControl>
             </Grid>
         </Grid>
     </Toolbar></AppBar >
