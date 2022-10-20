@@ -4,7 +4,7 @@ import Price from "../Price/Price";
 import Grid from "@mui/material/Grid"
 import Typography from '@mui/material/Typography';
 import Card from "@mui/material/Card"
-import ItemCardActions from "../ItemCardActions/ItemCardActions";
+import ItemCardActions from "./ItemCardActions";
 
 export default function ItemCard({
     item,
@@ -13,7 +13,7 @@ export default function ItemCard({
     item: PurcashedProduct,
     context: "AwaitingList" | "ArchivedList"
 }) {
-    return <Card sx={{ width: 300, height: 400, bgcolor: "secondary.dark", m: 2 }}>
+    return <Card sx={{ width: 300, height: 400, bgcolor: "secondary.light", m: 2 }}>
         <Grid container
             direction="column"
             height="100%"
