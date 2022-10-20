@@ -61,7 +61,7 @@ export function pollExchangeRates({
         if (Object.keys(rates).length)
             onRatesAvailable(rates);
         
-        setInterval(poller, INTERVAL);
+        setTimeout(poller, INTERVAL);
     }
     poller();
 
