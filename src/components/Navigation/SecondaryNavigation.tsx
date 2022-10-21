@@ -5,12 +5,15 @@ import {
     setCardsView,
 } from '../../GlobalState/dispatchers'
 
+import XSHiddenText from '../XSHiddenText/XSHiddenText'
+
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Grid from '@mui/material/Grid'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import VisualLink from '@mui/material/Link'
+import * as Icons from '@mui/icons-material'
 
 export default function SecondaryNavigation() {
     const cardsView = useAppSelector(state => state.cardsView);
@@ -20,7 +23,6 @@ export default function SecondaryNavigation() {
             <Grid item container
                 xs="auto"
                 marginLeft={{ sm: 2 }}
-                marginRight="10ch"
                 columnSpacing={2}
                 alignItems="center"
             >
@@ -46,13 +48,41 @@ export default function SecondaryNavigation() {
             <Grid item sx={{ marginLeft: "auto" }}>
                 <Select variant="standard"
                     sx={{
-                        color: "secondary.contrastText"
+                        color: "secondary.contrastText",
                     }}
                     value={cardsView ? "cardsView" : "tableView"}
                     onChange={e => setCardsView(e.target.value === "cardsView")}
                 >
-                    <MenuItem value="tableView">Table view</MenuItem>
-                    <MenuItem value="cardsView">Cards view</MenuItem>
+                    <MenuItem value="tableView">
+                        <Icons.TableView sx={{
+                            verticalAlign: "bottom",
+                            marginInlineEnd: "0.5ch",
+                        }} />
+                        <XSHiddenText
+                            sx={{
+                                '.MuiMenu-root &' : {
+                                    display: "revert"
+                                }        
+                            }}
+                        >
+                            Table view
+                        </XSHiddenText>
+                    </MenuItem>
+                    <MenuItem value="cardsView">
+                        <Icons.GridView sx={{
+                            verticalAlign: "bottom",
+                            marginInlineEnd: "0.5ch",
+                        }} />
+                        <XSHiddenText
+                            sx={{
+                                '.MuiMenu-root &' : {
+                                    display: "revert"
+                                }        
+                            }}
+                        >
+                            Cards view
+                        </XSHiddenText>
+                    </MenuItem>
                 </Select>
             </Grid>
         </Grid>

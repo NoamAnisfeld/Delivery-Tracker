@@ -9,6 +9,7 @@ import {
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import InputLabel from '@mui/material/InputLabel'
@@ -64,12 +65,23 @@ export default function PrimaryNavigation() {
                 alignItems="center"
             >
                 <FormControl>
-                    <InputLabel>Currency</InputLabel>
+                    <InputLabel sx={{ display: { xs: "none", sm: "revert" } }} >
+                        Currency
+                    </InputLabel>
                     <Select variant="standard"
                         sx={{
                             color: "secondary.contrastText",
                         }}
                         value={selectedCurrency}
+                        renderValue={currencyCode => <>
+                            <Typography component="span" sx={{
+                                display: { xs: "none", sm: "revert" }
+                            }}>
+                                {availableCurrencies[currencyCode].name}
+                            </Typography>
+                            {availableCurrencies[currencyCode].sign ||
+                                currencyCode}
+                        </>}
                         onChange={e => setSelectedCurrency(e.target.value)}
                     >
                         {filteredCurrencyEntries.map(([currencyCode, currency]) =>
