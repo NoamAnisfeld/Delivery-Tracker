@@ -16,7 +16,7 @@ export default function ColoredDate({
     
     return <Typography
         color={
-            isSameDate(date, new Date) ?
+            isSameDate(date, new Date()) ?
                 "success.main" :
             date.valueOf() < Date.now() ?
                 "error.main" :
