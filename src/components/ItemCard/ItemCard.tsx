@@ -15,7 +15,7 @@ export default function ItemCard({
 }) {
     return <Card sx={{ width: 300, height: 400, bgcolor: "secondary.light", m: 2 }}>
         <Grid container
-            direction="column"
+            flexDirection="column"
             height="100%"
             justifyContent="space-between"
             wrap="nowrap"

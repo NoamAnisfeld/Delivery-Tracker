@@ -1,5 +1,4 @@
 import Typography, { TypographyProps } from '@mui/material/Typography'
-import { SystemCssProperties } from '@mui/system'
 
 export default function XSHiddenText(props: TypographyProps) {
     return <Typography

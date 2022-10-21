@@ -47,7 +47,7 @@ export default function AddItemForm() {
             onClose={() => setToggleDialog(false)}
         >
             <Grid container p={3} spacing={3} sx={{
-                direction: {
+                flexDirection: {
                     xs: "column",
                     sm: "row",
                 },
