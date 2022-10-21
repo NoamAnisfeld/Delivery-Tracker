@@ -13,7 +13,8 @@ import Grid from '@mui/material/Grid'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import VisualLink from '@mui/material/Link'
-import * as Icons from '@mui/icons-material'
+import TableViewIcon from '@mui/icons-material/TableView'
+import GridViewIcon from '@mui/icons-material/GridView'
 
 export default function SecondaryNavigation() {
     const cardsView = useAppSelector(state => state.cardsView);
@@ -54,7 +55,7 @@ export default function SecondaryNavigation() {
                     onChange={e => setCardsView(e.target.value === "cardsView")}
                 >
                     <MenuItem value="tableView">
-                        <Icons.TableView sx={{
+                        <TableViewIcon sx={{
                             verticalAlign: "bottom",
                             marginInlineEnd: "0.5ch",
                         }} />
@@ -69,7 +70,7 @@ export default function SecondaryNavigation() {
                         </XSHiddenText>
                     </MenuItem>
                     <MenuItem value="cardsView">
-                        <Icons.GridView sx={{
+                        <GridViewIcon sx={{
                             verticalAlign: "bottom",
                             marginInlineEnd: "0.5ch",
                         }} />
