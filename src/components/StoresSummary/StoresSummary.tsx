@@ -13,7 +13,7 @@ import TableCell from '@mui/material/TableCell';
 export default function StoresSummary() {
     const [storesArray, totalAllItems, totalAllPrice] = useStoresData();
 
-    return <Grid container justifyContent="center">
+    return <Grid container justifyContent="center" marginTop={8}>
         <TableContainer sx={{ width: "auto" }}>
             <Table sx={{ tableLayout: "fixed", width: "auto" }}>
                 <TableHead>

@@ -1,16 +1,16 @@
-import SecondaryNavigation from "../Navigation/SecondaryNavigation";
 import AddItemForm from "../AddItemForm/AddItemForm"
 import ItemsList from "../ItemsList/ItemsList"
-import Archive from '../Archive/Archive';
+import Archive from '../Archive/Archive'
 
-import { Routes, Route } from 'react-router-dom';
-import { useAppSelector } from "../../GlobalState/interface";
+import { Routes, Route } from 'react-router-dom'
+import { useAppSelector } from "../../GlobalState/interface"
+
+import Container from '@mui/material/Container'
 
 export default function Main() {
     const awaitedProducts = useAppSelector(state => state.awaitedProducts);
 
-    return <>
-        <SecondaryNavigation />
+    return <Container sx={{ marginTop: 16 }}>
         <Routes>
             <Route index element={<>
                 <AddItemForm />
@@ -18,5 +18,5 @@ export default function Main() {
             </>} />
             <Route path="archive" element={<Archive />} />
         </Routes>
-    </>
+    </Container>
 }

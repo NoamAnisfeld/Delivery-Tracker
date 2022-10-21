@@ -19,15 +19,19 @@ import GridViewIcon from '@mui/icons-material/GridView'
 export default function SecondaryNavigation() {
     const cardsView = useAppSelector(state => state.cardsView);
 
-    return <AppBar position="static" color="secondary"><Toolbar>
-        <Grid container alignItems="center" justifyContent="space-between">
-            <Grid item container
+    return <AppBar position="relative" color="secondary"><Toolbar>
+        <Grid container
+            alignItems="center"
+            justifyContent="space-between"
+            flexWrap="nowrap"
+        >
+            <Grid item container columnSpacing={2}
                 xs="auto"
                 marginLeft={{ sm: 2 }}
-                columnSpacing={2}
                 alignItems="center"
             >
-                <Grid item p={2}
+                <Grid item
+                    padding={{ sm: 2 }}
                     sx={
                         useMatch("") ? { fontWeight: "bold" } : {}
                     }
@@ -36,7 +40,8 @@ export default function SecondaryNavigation() {
                         Delivery
                     </VisualLink>
                 </Grid>
-                <Grid item p={2}
+                <Grid item
+                    padding={{ sm: 2 }}
                     sx={
                         useMatch("archive") ? { fontWeight: "bold" } : {}
                     }
