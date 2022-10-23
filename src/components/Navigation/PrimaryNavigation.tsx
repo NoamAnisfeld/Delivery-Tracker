@@ -7,6 +7,7 @@ import {
 } from '../../GlobalState/dispatchers'
 
 import SecondaryNavigation from './SecondaryNavigation'
+import XSHiddenText from '../XSHiddenText/XSHiddenText'
 
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
@@ -73,29 +74,35 @@ export default function PrimaryNavigation() {
                     columnSpacing={2}
                     alignItems="center"
                 >
-                    <FormControl>
-                        <InputLabel sx={{ display: { xs: "none", sm: "revert" } }} >
-                            Currency
+                    <FormControl sx={{
+                        color: "secondary.contrastText",
+                    }}>
+                        <InputLabel sx={{
+                            color: "inherit",
+                        }}>
+                            <XSHiddenText>
+                                Currency
+                            </XSHiddenText>
                         </InputLabel>
                         <Select variant="standard"
                             sx={{
-                                color: "secondary.contrastText",
+                                color: "inherit",
                             }}
                             value={selectedCurrency}
                             renderValue={currencyCode => <>
-                                <Typography component="span" sx={{
-                                    display: { xs: "none", sm: "revert" }
-                                }}>
-                                    {availableCurrencies[currencyCode].name}
-                                </Typography>
-                                {availableCurrencies[currencyCode].sign ||
-                                    currencyCode}
+                                {
+                                    availableCurrencies[currencyCode].sign ||
+                                    currencyCode
+                                }
+                                <XSHiddenText>
+                                    {" " + availableCurrencies[currencyCode].name}
+                                </XSHiddenText>
                             </>}
                             onChange={e => setSelectedCurrency(e.target.value)}
                         >
                             {filteredCurrencyEntries.map(([currencyCode, currency]) =>
                                 <MenuItem value={currencyCode} key={currencyCode}>
-                                    {currency.name} {currency.sign}
+                                    {currency.sign} {currency.name}
                                 </MenuItem>
                             ).concat(
                                 filteredCurrencyEntries.length < 2 ?
